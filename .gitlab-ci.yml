@@ -1,0 +1,16 @@
+cache:
+  key: "project_$CI_MERGE_REQUEST_SOURCE_PROJECT_ID_$CI_COMMIT_REF_NAME"
+  untracked: true
+  paths:
+    - node_modules/
+
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  only:
+    - develop
+    - master
+  script:
+    - npm i && npm test && ./gitlab-deploy.sh
