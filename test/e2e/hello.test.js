@@ -106,6 +106,7 @@ tap.test('hello endpoints', t => {
       method: 'GET',
       url,
     }).then((response) => {
+      console.log(response.statusCode, 'statuuuuuuuuuuuuuuuuuus code')
       t.strictEqual(response.statusCode, 403)
       t.end()
     }).catch((err) => {
