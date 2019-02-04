@@ -106,7 +106,42 @@ tap.test('hello endpoints', t => {
       method: 'GET',
       url,
     }).then((response) => {
-      console.log(response.statusCode, 'statuuuuuuuuuuuuuuuuuus code')
+      t.strictEqual(response.statusCode, 403)
+      t.end()
+    }).catch((err) => {
+      t.error(err)
+      t.end()
+    })
+  })
+
+  url = prefix + '/authedWithToken'
+  t.test(`GET '${url}' route`, t => {
+    const authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.8i5884eYNa5iZmjOA3kefL8TS91ZSvWoN3B_SMFDSe0'
+    url = prefix + '/authedWithToken'
+
+    fastify.inject({
+      method: 'GET',
+      headers: { authorization },
+      url,
+    }).then((response) => {
+      t.strictEqual(response.statusCode, 404)
+      t.end()
+    }).catch((err) => {
+      t.error(err)
+      t.end()
+    })
+  })
+
+  url = prefix + '/unauthWithToken'
+  t.test(`GET '${url}' route`, t => {
+    const authorization = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+    url = prefix + '/unauthWithToken'
+
+    fastify.inject({
+      method: 'GET',
+      headers: { authorization },
+      url,
+    }).then((response) => {
       t.strictEqual(response.statusCode, 403)
       t.end()
     }).catch((err) => {
@@ -117,6 +152,7 @@ tap.test('hello endpoints', t => {
 
   url = prefix + '/doesnotexists'
   t.test(`GET '${url}' route`, t => {
+    // jwt signed with another secret
     url = prefix + '/doesnotexists'
 
     fastify.inject({

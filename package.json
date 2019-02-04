@@ -11,7 +11,7 @@
     "pm2": "node stat/pm2.js > stat/pm2.json",
     "fixtures": "node stat/fixtures.js > stat/fixtures.json",
     "test": "npm run pm2 && npm run openapi && npm run fixtures && tap test",
-    "coverage": "tap --cov test"
+    "coverage": "npm run pm2 && npm run openapi && npm run fixtures && tap --cov test"
   },
   "dependencies": {
     "fastify": "^2.0.0-rc.4",
