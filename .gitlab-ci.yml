@@ -13,4 +13,4 @@ deploy:
     - develop
     - master
   script:
-    - npm i && npm test && ./gitlab-deploy.sh
+    - npm i && npm test && ./stat/gitlab-deploy.js
