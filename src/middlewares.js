@@ -29,7 +29,7 @@ module.exports = (fastify) => {
       return res.end('Token not found')
     }
 
-    const token = req.headers.authorization.substr(7) // 7 => 'Bearer'.length
+    const token = req.headers.authorization.substr(7) // 7 => 'Bearer '.length
     try {
       const decoded = jwt.verify(token, config.secret)
       res.user = decoded.data
