@@ -38,8 +38,8 @@ fixtures.local = JSON.parse(JSON.stringify(fixtures.develop))
 const body = {
   accountId: fixtures[env].user,
   password: fixtures[env].pass,
-  clientCasId: 'WeAreTap',
-  deviceName: 'evTesting',
+  clientCasId: '2da0b144f32c9102e20df62a7eb953af',
+  deviceName: 'Linux x86_64',
   devicePlatform: 'WindowsPC',
   deviceType: 'cloud_client'
 }
@@ -53,5 +53,6 @@ got(url, { body, method: 'post', json: true, throwHttpErrors: false })
       console.log(JSON.stringify(fixtures, null, 2))
     } else {
       console.error(req.statusCode, req.body)
+      process.exit(1)
     }
   })
