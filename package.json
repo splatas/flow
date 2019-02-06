@@ -10,8 +10,9 @@
     "openapi": "node stat/openapi.js > stat/openapi.json",
     "pm2": "node stat/pm2.js > stat/pm2.json",
     "fixtures": "node stat/fixtures.js > stat/fixtures.json",
-    "test": "npm run pm2 && npm run openapi && npm run fixtures && tap -bCRlist test",
-    "coverage": "npm run pm2 && npm run openapi && npm run fixtures && tap --cov test"
+    "pretest": "npm run pm2 && npm run openapi && npm run fixtures && eslint .",
+    "test": "tap -bCRlist test",
+    "coverage": "npm run pretest && tap --cov test"
   },
   "dependencies": {
     "fastify": "^2.0.0-rc.6",
