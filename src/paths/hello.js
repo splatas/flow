@@ -74,7 +74,7 @@ module.exports = (fastify) => {
     }
   }
 
-  return { 
+  return {
     definition,
     schema: {
       now: schemaNow,

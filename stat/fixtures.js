@@ -50,8 +50,10 @@ got(url, { body, method: 'post', json: true, throwHttpErrors: false })
   .then(req => {
     if (req.statusCode === 200) {
       fixtures[env].token = req.body.jwt
+      // eslint-disable-next-line no-console
       console.log(JSON.stringify(fixtures, null, 2))
     } else {
+      // eslint-disable-next-line no-console
       console.error(req.statusCode, req.body)
       process.exit(1)
     }

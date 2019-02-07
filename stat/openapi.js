@@ -38,5 +38,6 @@ require('../src/app')(fastify)
 
 fastify.ready(err => {
   if (err) throw err
+  // eslint-disable-next-line no-console
   console.log(JSON.stringify(fastify.oas(), null, 2))
 })

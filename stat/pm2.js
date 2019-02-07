@@ -24,4 +24,5 @@ const config = {
   ]
 }
 
+// eslint-disable-next-line no-console
 console.log(JSON.stringify(config, null, 2))

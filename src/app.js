@@ -19,11 +19,11 @@ module.exports = (fastify) => {
   }
 
   function fastifyError(req, reply, error, next) {
-    const url = fastify.config.loggly.api
-      + fastify.config.loggly.token
-      + '/tag/'
-      + fastify.config.loggly.tags
-      + '/'
+    const url = fastify.config.loggly.api +
+      fastify.config.loggly.token +
+      '/tag/' +
+      fastify.config.loggly.tags +
+      '/'
     let body = error.name + ' - ' + error.message
     if (error.code) { error += ' - code: ' + error.code }
     if (error.status) { error += ' - status: ' + error.status }
