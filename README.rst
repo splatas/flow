@@ -11,7 +11,7 @@ External requirements
 ---------------------
 
 * rst2pdf: sudo apt install rst2pdf
-* eslint: npm i -g eslint eslint-plugin-only-warn eslint-config-standard eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-plugin-standard)
+* eslint: npm i -g eslint eslint-plugin-only-warn eslint-config-standard eslint-plugin-import eslint-plugin-node eslint-plugin-promise eslint-plugin-standard
 
 -----
 @TODO
