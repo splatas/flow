@@ -1,12 +1,10 @@
 const path = require('path')
 const deploy = require('shipit-deploy')
 const util = require('util')
-const os = require('os');
 
-const ifaces = os.networkInterfaces()
 const { name } = require('./package.json')
 const parentDir = path.join(__dirname, '..')
-const runTests = process.env.DEPLOY_TESTS === 'no'? false: true
+const noRunTests = process.env.DEPLOY_TESTS === 'no'
 
 let thaServers
 if (process.env.DEPLOY_SERVERS) {
@@ -74,12 +72,15 @@ module.exports = shipit => {
   })
 
   shipit.blTask('npm:test', async () => {
+    if (noRunTests) {
+      return
+    }
     const servers = shipit.config.servers
     const server = servers[Math.floor(Math.random() * servers.length)].replace(/.*@/, '')
 
     // mierva sux monky cox, test @ one server at time
-    const cmd = '/usr/sbin/ip addr | grep "inet " | sed -r "s/ .*inet ([0-9\.]+).*/\\1/" | grep -F "%s"'
-      + ' && cd %s && npm test || echo "Not here hao!"'
+    const cmd = '/usr/sbin/ip addr | grep "inet " | sed -r "s/ .*inet ([0-9\\.]+).*/\\1/" | grep -F "%s"' +
+      ' && cd %s && npm test || echo "Not here hao!"'
     return shipit.remote(util.format(cmd, server, shipit.releasePath))
   })
 
