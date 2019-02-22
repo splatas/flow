@@ -8,7 +8,8 @@ const hello = require('./paths/hello') // ping + now
 module.exports = (fastify) => {
   const midds = Middlewares(fastify)
   fastify.use(midds.cors)
-  fastify.use(midds.bearer)
+  // fastify.use(midds.bearer)
+  fastify.decorate('bearerHandler', midds.bearerHandler)
   fastify.decorate('request', request)
   fastify.register(mount, { prefix: fastify.config.prefix })
   fastify.addHook('onError', fastifyError)

@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "base-jaxx",
-    "version": "0.1.0"
+    "version": "0.2.0"
   },
   "components": {
     "securitySchemes": {
@@ -129,6 +129,28 @@
       }
     },
     "/base/v1/revision": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Git revision",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Git revision"
+          }
+        },
+        "summary": "Revision",
+        "description": "Git revision",
+        "tags": [
+          "hello"
+        ]
+      }
+    },
+    "/base/v1/private": {
       "get": {
         "responses": {
           "200": {

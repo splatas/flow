@@ -3,7 +3,7 @@ const config = require('./config')
 
 module.exports = (fastify) => {
   fastify.decorate('config', config)
-  return { cors, bearer }
+  return { cors, bearer, bearerHandler }
 
   function cors(req, res, next) {
     if (req.method === 'OPTIONS') {
@@ -24,19 +24,38 @@ module.exports = (fastify) => {
     if (req.method === 'OPTIONS' || config.whitelist.indexOf(req.url) >= 0) {
       return next()
     }
+
+    const auth = bearerCommon(req)
+    if (auth.code) {
+      res.statusCode = auth.code
+      return res.end(auth.message)
+    }
+
+    res.user = auth.user
+    next()
+  }
+
+  function bearerHandler(req, reply, done) {
+    const auth = bearerCommon(req)
+    if (auth.code) {
+      return reply.code(auth.code).send(auth.message)
+    }
+
+    reply.res.user = auth.user
+    done()
+  }
+
+  function bearerCommon(req) {
     if (!req.headers.authorization || req.headers.authorization.indexOf('Bearer ') !== 0) {
-      res.statusCode = 403
-      return res.end('Token not found')
+      return { code: 403, message: 'Token not found' }
     }
 
     const token = req.headers.authorization.substr(7) // 7 => 'Bearer '.length
     try {
       const decoded = jwt.verify(token, config.secret)
-      res.user = decoded.data
+      return { user: decoded.data }
     } catch(err) {
-      res.statusCode = 403
-      res.end(err.message)
+      return { code: 403, message: err.message }
     }
-    next()
   }
 }

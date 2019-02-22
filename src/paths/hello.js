@@ -13,6 +13,7 @@ module.exports = (fastify) => {
 
     fastify.get('/totalMB', { schema: schemaTotalMB }, totalMB)
     fastify.get('/revision', { schema: schemaRevision }, revision)
+    fastify.get('/private', { preHandler: fastify.bearerHandler, schema: schemaRevision }, revision)
   }
 
   const schemaNow = {
