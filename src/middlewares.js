@@ -3,7 +3,7 @@ const config = require('./config')
 
 module.exports = (fastify) => {
   fastify.decorate('config', config)
-  return { cors, bearer, bearerHandler }
+  return { cors, bearerHandler }
 
   function cors(req, res, next) {
     if (req.method === 'OPTIONS') {
@@ -17,21 +17,6 @@ module.exports = (fastify) => {
     if (req.method === 'OPTIONS') {
       return res.end()
     }
-    next()
-  }
-
-  function bearer(req, res, next) {
-    if (req.method === 'OPTIONS' || config.whitelist.indexOf(req.url) >= 0) {
-      return next()
-    }
-
-    const auth = bearerCommon(req)
-    if (auth.code) {
-      res.statusCode = auth.code
-      return res.end(auth.message)
-    }
-
-    res.user = auth.user
     next()
   }
 
