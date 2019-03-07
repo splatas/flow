@@ -15,7 +15,7 @@
     "coverage": "npm run pretest && tap --cov test"
   },
   "dependencies": {
-    "fastify": "^2.0.0",
+    "fastify": "^2.0.1",
     "got": "^9.6.0",
     "jsonwebtoken": "^8.5.0"
   },
