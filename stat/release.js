@@ -5,6 +5,7 @@ const fs = require('fs')
 const { format } = require('util')
 const { exec: execOrig } = require('child_process')
 const { name } = require('../package.json')
+const Name = name.charAt(0).toUpperCase() + name.slice(1)
 
 const commands = {
   tags: 'git tag -l --sort=v:refname',
@@ -61,9 +62,9 @@ function exec(cmd) {
 
 function render(prev, version, name, file, log) {
   _l('Generating', file)
-  const template = format(`=============================
-Event API :: Notas de versión
-=============================
+  const template = format(`===
+${Name} API :: Notas de versión
+====
 
 -------
 Versión
