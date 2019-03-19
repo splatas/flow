@@ -4,16 +4,9 @@
       "name": "base-jaxx",
       "script": "./server.js",
       "instances": "max",
-      "cwd": "/opt/nodejs/repos/base-jaxx/current",
       "env": {
         "PORT": 8100,
         "LOGGER": "yes"
-      },
-      "env_preprod": {
-        "LOGGER": "no"
-      },
-      "env_prod": {
-        "LOGGER": "no"
       }
     }
   ]
