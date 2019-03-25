@@ -17,6 +17,9 @@ const app = {
 if (env === 'prod') {
   app.error_file = app.out_file = '/dev/null'
 }
+if (env === 'preprod') {
+  app.env.SECRET = 'este es otro secret para preprod 201903'
+}
 if (env !== 'local' && env !== 'docker') {
   app.cwd = `/opt/nodejs/repos/${name}/current`
 }

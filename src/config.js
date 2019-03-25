@@ -4,7 +4,7 @@ const env = process.env.NODE_ENV || 'local'
 const prefix = `/${pack['x-prefix']}/v1`
 
 module.exports = {
-  secret: 'luego veremos algo mejor 201807',
+  secret: process.env.SECRET || 'luego veremos algo mejor 201807',
   prefix,
   loggly: {
     api: 'http://logs-01.loggly.com/inputs/',
