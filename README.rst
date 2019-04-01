@@ -2,7 +2,7 @@
 Base
 ====
 
-.. image:: http://www.mortalkombatwarehouse.com/mk2/jax/sprites/stance/a1.gif
+.. image:: https://vignette.wikia.nocookie.net/mortalkombat/images/2/21/Mk3jaxanimal.gif/revision/latest?cb=20110323055540&path-prefix=es
 
 * pm2 reload -a --env $NODE_ENV pm2.json
 

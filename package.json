@@ -2,7 +2,7 @@
   "name": "base-jaxx",
   "x-prefix": "base",
   "x-port": 8100,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "server.js",
   "x-git-version": "{{X-GIT-VERSION}}",
   "scripts": {
