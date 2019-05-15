@@ -17,4 +17,4 @@ External requirements
 @TODO
 -----
 
-* At package.json change name, x-prefix and x-port
+* At package.json change name, and config

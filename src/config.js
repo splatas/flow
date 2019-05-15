@@ -1,7 +1,7 @@
 const pack = require('../package.json')
 
 const env = process.env.NODE_ENV || 'local'
-const prefix = `/${pack['x-prefix']}/v1`
+const prefix = `/${pack.config.prefix}/v1`
 
 module.exports = {
   secret: process.env.SECRET || 'luego veremos algo mejor 201807',

@@ -90,7 +90,7 @@ tap.test('hello endpoints', t => {
       t.strictEqual(response.headers['content-type'], 'application/json; charset=utf-8')
 
       t.ok(validate(JSON.parse(response.payload)), validate.errors)
-      t.strictEqual(response.payload, '"' + pack['x-git-version'] + '"')
+      t.strictEqual(response.payload, '"' + pack.config.gitVersion + '"')
       t.end()
     }).catch((err) => {
       t.error(err)

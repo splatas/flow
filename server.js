@@ -8,4 +8,4 @@ const fastify = require('fastify')({
 
 require('./src/app')(fastify)
 
-fastify.listen(process.env.PORT || pack['x-port'], '0.0.0.0')
+fastify.listen(process.env.PORT || pack.config.port, '0.0.0.0')

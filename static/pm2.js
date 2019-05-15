@@ -1,15 +1,17 @@
 #!/usr/bin/env node
 const pack = require('../package.json')
 
-const name = pack.name
 const env = process.env['NODE_ENV'] || 'local'
+const name = env + '-' + pack.config.prefix
 
 const app = {
   name,
   script: './server.js',
   instances: 'max',
+  trace: true,
+  disable_trace: false,
   env: {
-    PORT: pack['x-port'],
+    PORT: pack.config.port,
     LOGGER: env === 'prod' ? 'no' : 'yes'
   }
 }

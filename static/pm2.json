@@ -1,9 +1,11 @@
 {
   "apps": [
     {
-      "name": "base-jaxx",
+      "name": "local-base",
       "script": "./server.js",
       "instances": "max",
+      "trace": true,
+      "disable_trace": false,
       "env": {
         "PORT": 8100,
         "LOGGER": "yes"

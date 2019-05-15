@@ -97,5 +97,5 @@ function totalMB(req, reply) {
 }
 
 function revision(request, reply) {
-  reply.type('application/json').send(pack['x-git-version'])
+  reply.type('application/json').send(pack.config.gitVersion)
 }

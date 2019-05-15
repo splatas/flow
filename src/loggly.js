@@ -5,7 +5,7 @@ const env = process.env.NODE_ENV || 'local'
 
 const api = 'http://logs-01.loggly.com/inputs/'
 const token = '2c52ac24-4b71-40fd-975b-4f31b92c0546'
-const tags = ['backend', pack['x-prefix'], env]
+const tags = ['backend', pack.config.prefix, env]
 
 const url = api + token + '/' + tags
 
