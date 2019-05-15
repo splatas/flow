@@ -29,7 +29,7 @@ if (process.argv.length < 3) {
   const file = `release_notes_${name}_${prev}_${version}.rst`
   await Promise.all([
     render(prev, version, name, file, log.stdout),
-    exec(`cp ${__dirname}/../stat/openapi.json ${__dirname}/../release/openapi_${name}_${version}.json`),
+    exec(`cp ${__dirname}/../static/openapi.json ${__dirname}/../release/openapi_${name}_${version}.json`),
     exec(`cp ${__dirname}/../shipitfile.js ${__dirname}/../release/shipitfile_${name}_${version}.js`),
   ])
   _l('Generating pdf')

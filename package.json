@@ -7,9 +7,9 @@
   "x-git-version": "{{X-GIT-VERSION}}",
   "scripts": {
     "start": "node server",
-    "openapi": "node stat/openapi.js > stat/openapi.json",
-    "pm2": "node stat/pm2.js > stat/pm2.json",
-    "fixtures": "node stat/fixtures.js > stat/fixtures.json",
+    "openapi": "node static/openapi.js > static/openapi.json",
+    "pm2": "node static/pm2.js > static/pm2.json",
+    "fixtures": "node static/fixtures.js > static/fixtures.json",
     "pretest": "npm run pm2 && npm run openapi && npm run fixtures && eslint .",
     "test": "tap -bCRlist test",
     "coverage": "npm run pretest && tap --cov test"
