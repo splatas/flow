@@ -1,5 +1,5 @@
 const v8 = require('v8')
-const pack = require('../../package.json')
+const service = require('../services/helloService')
 
 module.exports = (fastify) => {
   function definition() {
@@ -12,12 +12,16 @@ module.exports = (fastify) => {
     })
 
     fastify.get('/totalMB', { schema: schemaTotalMB }, totalMB)
-    fastify.get('/revision', { schema: schemaRevision }, revision)
-    fastify.get('/private', { preHandler: fastify.bearerHandler, schema: schemaRevision }, revision)
+    fastify.get('/revision', { schema: schemaRevision }, service.revision)
+    fastify.get('/private', { preValidation: fastify.bearerHandler,
+      schema: {
+        security: [ { keyScheme: [] } ],
+        ...schemaRevision,
+      } }, service.revision)
   }
 
   const schemaNow = {
-    tags: ['hello'],
+    tags: [ 'hello' ],
     summary: 'Now',
     description: 'whats tha time?!',
     response: {
@@ -29,7 +33,7 @@ module.exports = (fastify) => {
   }
 
   const schemaPing = {
-    tags: ['hello'],
+    tags: [ 'hello' ],
     summary: 'Ping',
     description: 'punga',
     response: {
@@ -41,7 +45,7 @@ module.exports = (fastify) => {
   }
 
   const schemaTotalMB = {
-    tags: ['hello'],
+    tags: [ 'hello' ],
     summary: 'Memory usage',
     description: 'megabytes & ram',
     response: {
@@ -64,7 +68,7 @@ module.exports = (fastify) => {
   }
 
   const schemaRevision = {
-    tags: ['hello'],
+    tags: [ 'hello' ],
     summary: 'Revision',
     description: 'Git revision',
     response: {
@@ -94,8 +98,4 @@ function totalMB(req, reply) {
     out[k] = stats[k] / MB
   }
   reply.send(out)
-}
-
-function revision(request, reply) {
-  reply.type('application/json').send(pack.config.gitVersion)
 }

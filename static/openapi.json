@@ -1,6 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
+    "x-git-version": "develop-19d028e",
     "title": "base-jaxx",
     "version": "0.3.0"
   },
@@ -169,6 +170,11 @@
         "description": "Git revision",
         "tags": [
           "hello"
+        ],
+        "security": [
+          {
+            "keyScheme": []
+          }
         ]
       }
     }

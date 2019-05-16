@@ -1,5 +1,13 @@
 const jwt = require('jsonwebtoken')
 const config = require('./config')
+const { logglyErrorHandler: errorHandler } = require('./loggly')
+
+class ResponseError extends Error {
+  constructor(options) {
+    super(options.message)
+    this.code = this.statusCode = options.code
+  }
+}
 
 module.exports = (fastify) => {
   fastify.decorate('config', config)
@@ -21,7 +29,17 @@ module.exports = (fastify) => {
   }
 
   function bearerHandler(req, reply, done) {
-    const auth = bearerCommon(req)
+    let auth
+    try {
+      auth = bearerCommon(req)
+    } catch(err) {
+      if (err.code) {
+        errorHandler(err, req, reply, false)
+        return reply.code(err.code).send(err.message)
+      }
+      errorHandler(err, req, reply)
+      throw err
+    }
     if (auth.code) {
       return reply.code(auth.code).send(auth.message)
     }
@@ -32,7 +50,8 @@ module.exports = (fastify) => {
 
   function bearerCommon(req) {
     if (!req.headers.authorization || req.headers.authorization.indexOf('Bearer ') !== 0) {
-      return { code: 403, message: 'Token not found' }
+      // return { code: 403, message: err.message }
+      throw new ResponseError({ code: 403, message: 'token not found' })
     }
 
     const token = req.headers.authorization.substr(7) // 7 => 'Bearer '.length
@@ -40,7 +59,8 @@ module.exports = (fastify) => {
       const decoded = jwt.verify(token, config.secret)
       return { user: decoded.data }
     } catch(err) {
-      return { code: 403, message: err.message }
+      // return { code: 403, message: err.message }
+      throw new ResponseError({ code: 403, message: err.message })
     }
   }
 }

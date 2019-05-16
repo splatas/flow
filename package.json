@@ -24,7 +24,6 @@
   },
   "config": {
     "prefix": "base",
-    "gitVersion": "{{X-GIT-VERSION}}",
     "port": 8100
   }
 }

@@ -23,7 +23,7 @@ function logString(body, ip = '') {
   got(url, { headers, body, throwHttpErrors: false })
 }
 
-function logglyErrorHandler (error, request, reply) {
+function logglyErrorHandler(error, request, reply, send = true) {
   error.xTrackId = request.headers['x-request-id']
   request.log.error(error)
 
@@ -45,6 +45,8 @@ function logglyErrorHandler (error, request, reply) {
     xTrackId: error.xTrackId || '',
   }
 
-  reply.send(toLog)
+  if (send) {
+    reply.send(toLog)
+  }
   log(toLog, request.ip)
 }

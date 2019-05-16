@@ -2,7 +2,7 @@ const tap = require('tap')
 const Ajv = require('ajv')
 
 const fastify = require('fastify')()
-const pack = require('../../package.json')
+const openapi = require('../../static/openapi.json')
 require('../../src/app')(fastify)
 const prefix = fastify.config.prefix
 
@@ -90,7 +90,7 @@ tap.test('hello endpoints', t => {
       t.strictEqual(response.headers['content-type'], 'application/json; charset=utf-8')
 
       t.ok(validate(JSON.parse(response.payload)), validate.errors)
-      t.strictEqual(response.payload, '"' + pack.config.gitVersion + '"')
+      t.strictEqual(response.payload, '"' + openapi.info['x-git-version'] + '"')
       t.end()
     }).catch((err) => {
       t.error(err)

@@ -61,14 +61,8 @@ module.exports = shipit => {
   shipit.blTask('reversion', async() => {
     const branch = shipit.config.branch
 
-    const gitLog = util.format('git log %s -1 --pretty=format:"%h"', branch)
-    const { stdout } = await shipit.local(gitLog, { cwd: shipit.workspace })
-    const version = branch + '_' + stdout.trim()
-
-    const file = `${shipit.workspace}/package.json`
-    const reversion = util.format('sed -i s/{{X-GIT-VERSION}}/%s/ %s', version, file)
-
-    return shipit.local(reversion)
+    const gitLog = util.format('DEPLOY_BRANCH=%s npm run openapi', branch)
+    return shipit.local(gitLog, { cwd: shipit.workspace })
   })
 
   shipit.blTask('npm:test', async () => {
@@ -76,12 +70,13 @@ module.exports = shipit => {
       return
     }
     const servers = shipit.config.servers
+    const branch = shipit.config.branch
     const server = servers[Math.floor(Math.random() * servers.length)].replace(/.*@/, '')
 
     // mierva sux monky cox, test @ one server at time
     const cmd = '/usr/sbin/ip addr | grep "inet " | sed -r "s/ .*inet ([0-9\\.]+).*/\\1/" | grep -F "%s"' +
-      ' && cd %s && npm test || echo "Not here hao!"'
-    return shipit.remote(util.format(cmd, server, shipit.releasePath))
+      ' && cd %s && DEPLOY_BRANCH=%s npm test || echo "Not here hao!"'
+    return shipit.remote(util.format(cmd, server, shipit.releasePath, branch))
   })
 
   shipit.blTask('pm2:startOrRestart', async () => {
