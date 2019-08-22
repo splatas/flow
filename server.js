@@ -1,11 +1,15 @@
 #!/usr/bin/env node
+const config = require('./src/config')
+const { app, logger } = require('./src/app')
 
-const pack = require('./package.json')
+async function start () {
+  try {
+    const fastify = await app()
+    await fastify.listen(config.port, '0.0.0.0')
+  } catch (err) {
+    logger.error(err)
+    process.exit(1)
+  }
+}
 
-const fastify = require('fastify')({
-  logger: process.env.LOGGER !== 'no'
-})
-
-require('./src/app')(fastify)
-
-fastify.listen(process.env.PORT || pack.config.port, '0.0.0.0')
+start()
