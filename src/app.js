@@ -1,7 +1,6 @@
 const got = require('got')
 
 const Middlewares = require('./middlewares')
-const { logglyErrorHandler: errorHandler } = require('./loggly')
 const hello = require('./paths/hello') // ping + now
 // const list = require('./paths/list')
 // const content = require('./paths/content')
