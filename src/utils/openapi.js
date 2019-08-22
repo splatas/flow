@@ -1,13 +1,18 @@
 const pack = require('../../package')
-const EXPOSE_API = process.env.EXPOSE_API === 'yes'
+const env = process.env.NODE_ENV || 'local'
+
+let exposeRoute = true
+if (env === 'prod') {
+  exposeRoute = false
+}
 
 module.exports = fastify => {
   fastify.register(require('fastify-swagger'), {
-    exposeRoute: EXPOSE_API,
-    routePrefix: '/prm/doc',
+    exposeRoute,
+    routePrefix: '/base/doc',
     swagger: {
       info: {
-        title: 'PRM',
+        title: 'Base',
         description: pack.description,
         version: pack.version
       },
@@ -15,17 +20,16 @@ module.exports = fastify => {
         url: 'https://swagger.io',
         description: 'Swagger info here'
       },
-      schemes: ['http', 'https'],
+      schemes: fastify.config.schemes,
+      host: fastify.config.host,
       consumes: ['application/json'],
       produces: ['application/json'],
       tags: [
         { name: 'common', description: 'Anon stat end-points' },
-        { name: 'register', description: 'register device in prm service' },
-        { name: 'content', description: 'content resource related endpoints' }
       ],
       securityDefinitions: {
         keyScheme: {
-          description: 'authorization bearer',
+          description: 'Authorization Bearer',
           type: 'apiKey',
           name: 'Authorization',
           in: 'header'
