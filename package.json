@@ -14,7 +14,8 @@
   "dependencies": {
     "fastify": "^2.3.0",
     "got": "^9.6.0",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "fl-loggly": "git+http://10.200.172.71/backend/fl-loggly.git#1.0.2"
   },
   "devDependencies": {
     "fastify-oas": "^2.1.3",
