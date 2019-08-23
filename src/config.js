@@ -4,7 +4,6 @@ const pack = require('../package.json')
 const env = process.env.NODE_ENV || 'local'
 const prefix = `/${pack.config.prefix}/v1`
 
-
 // setPm2EnvVars()
 
 const activateLogs = process.env.ENABLE_LOGS !== 'no'
@@ -25,12 +24,12 @@ const config = {
     secret: process.env.SECRET || 'luego veremos algo mejor 201807',
     exp: TWO_MONTHS,
     sign: {
-      expiresIn: TWO_MONTHS,
-    },
+      expiresIn: TWO_MONTHS
+    }
   },
   externals: {
     url: `http://${minervaHost}:7780/xtv-ws-client/api`,
-    accountType: 'cva',
+    accountType: 'cva'
   },
   schemes: ['https']
 }
@@ -40,7 +39,7 @@ const loggly = {
   tags: ['backend', env, 'auth'],
   json: false,
   returnStream: activateLogs,
-  level: activateLogs ? 'debug' : 'error',
+  level: activateLogs ? 'debug' : 'error'
 }
 
 const hosts = {
@@ -49,7 +48,7 @@ const hosts = {
   develop: 'gw-ff-dev.cablevisionflow.com.ar',
   staging: 'gw-ff-stg.cablevisionflow.com.ar',
   preprod: 'web-prepro.flow.com.ar',
-  prod: 'web.flow.com.ar',
+  prod: 'web.flow.com.ar'
 }
 config.host = hosts[env]
 

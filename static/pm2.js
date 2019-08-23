@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const pack = require('../package.json')
 
-const env = process.env['NODE_ENV'] || 'local'
+const env = process.env.NODE_ENV || 'local'
 const name = env + '-' + pack.config.prefix
 
 const app = {
@@ -27,4 +27,4 @@ if (env !== 'local' && env !== 'docker') {
 }
 
 // eslint-disable-next-line no-console
-console.log(JSON.stringify({ apps: [ app ] }, null, 2))
+console.log(JSON.stringify({ apps: [app] }, null, 2))

@@ -10,7 +10,7 @@ if (Math.random() > 0.5) server++
 
 const serverIp = `10.254.244.${server}`
 
-const cmd = `wget --header='Content-Type: application/json'` +
+const cmd = 'wget --header=\'Content-Type: application/json\'' +
   ` --post-data='{"repo": "backend/'${name}'", "branch": "${refname}"}'` +
   ` -qS -O- http://${serverIp}:8084/hermes/deploy`
 

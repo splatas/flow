@@ -5,7 +5,7 @@ const path = require('path')
 const { exec } = require('child_process')
 const framework = require('fastify')
 const oas = require('fastify-oas')
-const app = require('../src/app')
+const { app } = require('../src/app')
 const pack = require('../package.json')
 
 const branch = process.env.DEPLOY_BRANCH || 'develop'
@@ -17,17 +17,17 @@ const openapiDoc = {
       'x-git-version': '',
       title: pack.name,
       description: pack.description,
-      version: pack.version,
+      version: pack.version
     },
     externalDocs: {
       url: 'https://swagger.io',
-      description: 'Find more info here',
+      description: 'Find more info here'
     },
     schemes: ['https', 'http'],
     consumes: ['application/json'],
     produces: ['application/json'],
     tags: [
-      { name: 'hello', description: 'Anon stat end-points' },
+      { name: 'hello', description: 'Anon stat end-points' }
       // { name: 'tscreen', description: 'Multiscreen related end-points' }
     ],
     securityDefinitions: {
@@ -38,7 +38,7 @@ const openapiDoc = {
         in: 'header'
       }
     }
-  },
+  }
 }
 
 execProm(command).then(({ stdout, stderr }) => {
@@ -59,7 +59,7 @@ execProm(command).then(({ stdout, stderr }) => {
   })
 })
 
-function execProm(cmd) {
+function execProm (cmd) {
   return new Promise((resolve, reject) => {
     exec(cmd, (error, stdout, stderr) => {
       if (error) {
