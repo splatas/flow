@@ -1,3 +1,3 @@
 module.exports = {
-	commonPathsRegister: require('./common')
+  commonPathsRegister: require('./common')
 }

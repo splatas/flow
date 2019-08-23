@@ -25,7 +25,7 @@ module.exports = fastify => {
       consumes: ['application/json'],
       produces: ['application/json'],
       tags: [
-        { name: 'common', description: 'Anon stat end-points' },
+        { name: 'common', description: 'Anon stat end-points' }
       ],
       securityDefinitions: {
         keyScheme: {

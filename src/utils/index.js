@@ -19,7 +19,6 @@ module.exports = {
   timestamp
 }
 
-
 /**
  * Request Id generator
  *
@@ -37,7 +36,7 @@ function genReqId (req) {
  * @param      {String}  str     The string
  * @return     {String}  The md5 string hashed
  */
-function md5(str) {
+function md5 (str) {
   return crypto.createHash('md5').update(str).digest('hex')
 }
 
@@ -62,5 +61,5 @@ function request (fastify) {
  * @return     {string}  the String containing the timestamp
  */
 function timestamp () {
-	return ',"time":"' + (new Date()).toISOString() + '"'
+  return ',"time":"' + (new Date()).toISOString() + '"'
 }
