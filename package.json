@@ -7,8 +7,8 @@
     "openapi": "node static/openapi.js > static/openapi.json",
     "pm2": "node static/pm2.js > static/pm2.json",
     "fixtures": "node static/fixtures.js > static/fixtures.json",
-    "pretest": "npm run pm2 && npm run openapi && npm run fixtures && eslint .",
-    "test": "tap -bCRlist --no-coverage test",
+    "pretest": "npm run pm2 && npm run openapi && npm run fixtures",
+    "test": "eslint . --fix && TESTING=yes tap -bCRlist --no-coverage test",
     "coverage": "npm run pretest && tap test"
   },
   "dependencies": {
