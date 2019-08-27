@@ -11,7 +11,7 @@ const schema = {
 }
 
 function pingHandler (fastify, opts, next) {
-  fastify.get('/ping', { schema }, (request, reply) => {
+  fastify.get('/ping', { schema }, async (request, reply) => {
     reply.type('application/json').send('pong')
   })
   next()
