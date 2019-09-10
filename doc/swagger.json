@@ -1,0 +1,61 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Base",
+    "version": "0.3.0"
+  },
+  "components": {
+    "securitySchemes": {
+      "keyScheme": {
+        "description": "Authorization Bearer",
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "common",
+      "description": "Anon stat end-points"
+    }
+  ],
+  "externalDocs": {
+    "url": "https://swagger.io",
+    "description": "Swagger info here"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000/"
+    }
+  ],
+  "paths": {
+    "/base/v1/ping": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "pong",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "pong"
+          }
+        },
+        "summary": "Ping",
+        "description": "Returns pong",
+        "tags": [
+          "common"
+        ]
+      }
+    }
+  },
+  "host": "localhost:8088",
+  "schemes": [
+    "http"
+  ],
+  "x-git-version": "develop_7125a44"
+}

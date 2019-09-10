@@ -1,14 +1,9 @@
 const pack = require('../../package')
-const env = process.env.NODE_ENV || 'local'
-
-let exposeRoute = true
-if (env === 'prod') {
-  exposeRoute = false
-}
+const EXPOSE_API = process.env.EXPOSE_API === 'yes'
 
 module.exports = fastify => {
-  fastify.register(require('fastify-swagger'), {
-    exposeRoute,
+  fastify.register(require('fastify-oas'), {
+    exposeRoute: EXPOSE_API,
     routePrefix: '/base/doc',
     swagger: {
       info: {

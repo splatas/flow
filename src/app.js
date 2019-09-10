@@ -18,7 +18,7 @@ function app () {
 
   fastify.ready(err => {
     if (err) throw err
-    fastify.swagger()
+    fastify.oas()
   })
 
   return fastify

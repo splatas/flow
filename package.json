@@ -9,12 +9,12 @@
     "fixtures": "node static/fixtures.js > static/fixtures.json",
     "pretest": "npm run pm2 && npm run openapi && npm run fixtures",
     "test": "eslint . --fix && TESTING=yes tap -bCRlist --no-coverage test",
-    "coverage": "npm run pretest && tap test"
+    "coverage": "npm run pretest && tap test",
+    "gen:swagger": "./swagger-docs-generator.js > doc/swagger.json"
   },
   "dependencies": {
     "fastify": "^2.3.0",
     "fastify-jwt": "^1.0.0",
-    "fastify-swagger": "^2.4.0",
     "fl-loggly": "git+http://10.200.172.71/backend/fl-loggly.git#1.0.2",
     "got": "^9.6.0",
     "jsonwebtoken": "^8.5.1"
@@ -27,7 +27,7 @@
     "eslint-plugin-only-warn": "^1.0.1",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "fastify-oas": "^2.1.3",
+    "fastify-oas": "^2.3.1",
     "shipit-cli": "^4.2.0",
     "shipit-deploy": "^4.1.4",
     "tap": "^13.1.9"
