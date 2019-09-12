@@ -30,13 +30,13 @@ if (process.argv.length < 3) {
   await Promise.all([
     render(prev, version, name, file, log.stdout),
     exec(`cp ${__dirname}/../static/openapi.json ${__dirname}/../release/openapi_${name}_${version}.json`),
-    exec(`cp ${__dirname}/../shipitfile.js ${__dirname}/../release/shipitfile_${name}_${version}.js`),
+    exec(`cp ${__dirname}/../shipitfile.js ${__dirname}/../release/shipitfile_${name}_${version}.js`)
   ])
   _l('Generating pdf')
   exec(`cd ${__dirname}/../release && rst2pdf -s sphinx ${file}`)
 })()
 
-async function getVersion(param) {
+async function getVersion (param) {
   if (param) {
     return param
   }
@@ -49,7 +49,7 @@ async function getVersion(param) {
   }
 }
 
-function exec(cmd) {
+function exec (cmd) {
   return new Promise((resolve, reject) => {
     execOrig(cmd, (error, stdout, stderr) => {
       if (error) {
@@ -60,7 +60,7 @@ function exec(cmd) {
   })
 }
 
-function render(prev, version, name, file, log) {
+function render (prev, version, name, file, log) {
   _l('Generating', file)
   const template = format(`===
 ${Name} API :: Notas de versión

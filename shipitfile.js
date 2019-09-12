@@ -58,7 +58,7 @@ module.exports = shipit => {
     return shipit.remote(cmd)
   })
 
-  shipit.blTask('reversion', async() => {
+  shipit.blTask('reversion', async () => {
     const branch = shipit.config.branch
 
     const gitLog = util.format('DEPLOY_BRANCH=%s npm run openapi', branch)

@@ -1,0 +1,11 @@
+version: '3.5'
+
+services:
+  auth-menshen:
+    image: base-jaxx
+    container_name: base-jaxx
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 8088:8088

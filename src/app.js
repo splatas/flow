@@ -1,28 +1,30 @@
-const got = require('got')
+const config = require('./config')
+const { genReqId, timestamp, ...utils } = require('./utils')
 
-const Middlewares = require('./middlewares')
-const { logglyErrorHandler: errorHandler } = require('./loggly')
-const hello = require('./paths/hello') // ping + now
-// const list = require('./paths/list')
-// const content = require('./paths/content')
+const { commonPathsRegister } = require('./paths')
 
-module.exports = (fastify) => {
-  const midds = Middlewares(fastify)
-  fastify.use(midds.cors)
-  fastify.decorate('bearerHandler', midds.bearerHandler)
-  fastify.decorate('request', request)
-  fastify.register(mount, { prefix: fastify.config.prefix })
-  fastify.setErrorHandler(errorHandler)
+const fastify = require('fastify')({ genReqId, logger: { timestamp } })
 
-  function request() {
-    fastify.log.info('external request', ...arguments)
-    return got(...arguments)
-  }
+fastify.decorate('config', config)
+fastify.use(utils.cors)
+fastify.setErrorHandler(utils.errorHandler)
+
+function app () {
+  utils.jwt(fastify)
+  utils.request(fastify)
+  utils.openAPI(fastify)
+
+  commonPathsRegister(fastify, { prefix: fastify.config.prefix })
+
+  fastify.ready(err => {
+    if (err) throw err
+    fastify.oas()
+  })
+
+  return fastify
 }
 
-function mount(fastify, options, next) {
-  hello(fastify).definition()
-  // list(fastify).definition()
-  // content(fastify).definition()
-  next()
+module.exports = {
+  app,
+  logger: fastify.log
 }
