@@ -22,9 +22,6 @@ before_script:
     fi
   - CIPROJNAME=$CI_PROJECT_NAME
   - if [ "$CIPROJNAME" == "api_gateway" ]; then CIPROJNAME="api-gateway"; fi
-  - REVISION=`echo $CIPROJNAME | sed 's/-.*//'`
-  - REVISION_V=v1
-  - if [ "$CIPROJNAME" == "auth-menshen" ]; then REVISION_V=v2; fi
 
 stages:
   - test
@@ -40,7 +37,6 @@ test:
     - tags
   script:
     - apk add git
-    - unset http_proxy ; unset https_proxy
     - npm i && CACHE_REDIS=no npm t
 
 deploy:
@@ -51,12 +47,10 @@ deploy:
     - tags
   script:
     - cp /root/extrakeys/nodejs_id_rsa* ..
-    # using gitlab deploy token gitlab+deploy-token-8:Sgj8USC74rsnnZMHZKd7
-    - apk add openssh git
-    - git checkout $CI_COMMIT_REF_NAME ; git pull ; echo updated
     - >
       sed -ri $'s/repositoryUrl: \'git@([a-zA-Z0-9\.]+):/repositoryUrl:\'http:\\/\\/'$DEPLOY_TOKEN$'@\\1\\//' shipitfile.js
     - grep repositoryUrl shipitfile.js
+    - apk add openssh git
     - npm i shipit-cli shipit-deploy
     - DEPLOY_TESTS=no DEPLOY_BRANCH=$CI_COMMIT_REF_NAME npx shipit $NODE_ENV deploy
 
@@ -69,7 +63,11 @@ openapi:
   script:
     - echo node env $NODE_ENV
     - apk add git curl
-    - git checkout $CI_COMMIT_REF_NAME ; git pull ; echo updated
+    - git checkout $CI_COMMIT_REF_NAME
+    - >-
+      if [ "$CI_COMMIT_REF_NAME" == "develop" -o "$CI_COMMIT_REF_NAME" == "master" ];
+        then git pull ; echo updated;
+      fi
     - npm i
     - NODE_ENV=$NODE_ENV ./static/openapi.js > "${CIPROJNAME}_${NODE_ENV}".json
     - echo F '=@'"${CIPROJNAME}_${NODE_ENV}"'.json' https://10.254.244.112/swagger-shiva/v1/upload
@@ -93,8 +91,7 @@ release:
     - tags
   script:
     - apk add curl git xz py-docutils
-    - PREVIOUS=$(curl -s "https://web.flow.com.ar/${REVISION}/${REVISION_V}/revision" | sed 's/"//g;s/_.*//')
-    - git checkout $CI_COMMIT_REF_NAME ; git pull ; echo updated
+    - PREVIOUS=$(curl -s https://web.flow.com.ar/auth/v2/revision | sed 's/"//g;s/_.*//')
     - echo gen_release_notes.sh $PREVIOUS $CI_COMMIT_REF_NAME
     - PROJECT=$CI_PROJECT_NAME sh gen_release_notes.sh $PREVIOUS $CI_COMMIT_REF_NAME
     - >-
