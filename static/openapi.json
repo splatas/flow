@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "x-git-version": "develop-301df40",
+    "x-git-version": "develop-1f5b50d",
     "title": "base-jaxx",
     "version": "0.3.0"
   },
