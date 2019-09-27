@@ -1,6 +1,7 @@
 {
   "name": "base-jaxx",
-  "version": "0.3.0",
+  "description": "Node.js Bassement/Skeleton API",
+  "version": "0.4.0",
   "main": "server.js",
   "scripts": {
     "start": "node server",
@@ -9,8 +10,7 @@
     "fixtures": "node static/fixtures.js > static/fixtures.json",
     "pretest": "npm run pm2 && npm run openapi && npm run fixtures",
     "test": "eslint . --fix && TESTING=yes tap -bCRlist --no-coverage test",
-    "coverage": "npm run pretest && tap test",
-    "gen:swagger": "./swagger-docs-generator.js > doc/swagger.json"
+    "coverage": "npm run pretest && tap test"
   },
   "dependencies": {
     "fastify": "^2.8.0",

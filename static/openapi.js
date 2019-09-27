@@ -7,6 +7,7 @@ const framework = require('fastify')
 const oas = require('fastify-oas')
 const { app } = require('../src/app')
 const pack = require('../package.json')
+const config = require('../src/config.js')
 
 const branch = process.env.DEPLOY_BRANCH || 'develop'
 const command = `git log ${branch} -1 --pretty=format:"%h"`
@@ -23,7 +24,8 @@ const openapiDoc = {
       url: 'https://swagger.io',
       description: 'Find more info here'
     },
-    schemes: ['https', 'http'],
+    host: config.host,
+    schemes: config.schemes,
     consumes: ['application/json'],
     produces: ['application/json'],
     tags: [
