@@ -22,6 +22,8 @@ module.exports = shipit => {
       keepReleases: 5,
       deleteOnRollback: true,
       shallowClone: true,
+      updateSubmodules: true,
+      strict: 'no',
       workspace,
       deployTo,
       ignores: [
