@@ -4,12 +4,11 @@ const path = require('path')
 const fs = require('fs')
 const { format } = require('util')
 const { exec: execOrig } = require('child_process')
-const { name } = require('../package.json')
-const Name = name.charAt(0).toUpperCase() + name.slice(1)
+const { name, config: { fullName: fullName } } = require('../package.json')
 
 const commands = {
   tags: 'git tag -l --sort=v:refname',
-  log: 'git log %s --pretty="* %s" --abbrev-commit --reverse'
+  log: 'git log %s --pretty="* %s" --abbrev-commit --reverse | sed "/^\* [m,M]erge/d" | uniq'
 }
 
 // eslint-disable-next-line no-console
@@ -26,14 +25,11 @@ if (process.argv.length < 3) {
   const prev = process.argv[2]
   const version = await getVersion(process.argv[3])
   const log = await exec(format(commands.log, `${prev}..${version}`))
-  const file = `release_notes_${name}_${prev}_${version}.rst`
-  await Promise.all([
-    render(prev, version, name, file, log.stdout),
-    exec(`cp ${__dirname}/../static/openapi.json ${__dirname}/../release/openapi_${name}_${version}.json`),
-    exec(`cp ${__dirname}/../shipitfile.js ${__dirname}/../release/shipitfile_${name}_${version}.js`)
-  ])
-  _l('Generating pdf')
-  exec(`cd ${__dirname}/../release && rst2pdf -s sphinx ${file}`)
+  const file = `${name}-${version}`
+  await render(prev, version, name, fullName, file, log.stdout)
+  _l('Generating HTML/PDF')
+  // exec(`cd ${__dirname}/../release && rst2pdf -s sphinx ${file}.rst`)
+  exec(`cd ${__dirname}/../release && rst2html5 ${file}.rst > ${file}.html && xz ${file}.html`)
 })()
 
 async function getVersion (param) {
@@ -60,56 +56,37 @@ function exec (cmd) {
   })
 }
 
-function render (prev, version, name, file, log) {
+function render(prev, version, name, fullName, file, log) {
+  file += '.rst'
   _l('Generating', file)
-  const template = format(`===
-${Name} API :: Notas de versión
-====
+  const title = fullName + ' :: Notas de versión'
+  const line = '='.repeat(title.length)
+  const template = `${line}
+${title}
+${line}
 
 -------
 Versión
 -------
 
-* Actualmente en producción está la versión **%s**
-* Se sube a la versión **%s**
-
--------
-Cambios
--------
-
-* @TODO *detallar*
-* @TODO *cambios*
-* @TODO *funcionalmente*
+* Actualmente en producción está la versión **${prev}**
+* Se sube a la versión **${version}**
 
 ----------
 Despliegue
 ----------
 
-* Generar un directorio temporal donde se ejecutará el despliegue
-* $ cd $(mktemp -d)
-* Copiar/mover el par de claves ssl que permite acceso a los servidores un nivel arriba de este directorio
-* $ mv path/to/shipitfile_%s_%s.js shipitfile.js
-* $ npm i shipit shipit-deploy
-* $ DEPLOY_BRANCH=%s npx shipit prod deploy
-* Si las pruebas fallan no sube la nueva versión y no hace falta tomar acción
-* Si las pruebas no fallan pero luego se considera que hay que retroceder de versión (rollback)
-
----------
-Retroceso
----------
-
-El proceso de rollback es:
-
-  $ npx shipit prod rollback
+* El proceso de despliegue es vía Gitlab CI/CD http://10.200.172.71/backend/${name}/pipelines/new
+* Definiendo la ejecución en el tag ${version} y la variable **NODE_ENV** con valor **prod**.
 
 --------
 Registro
 --------
 
-%s
+${log.join('\n')}
 
-.. Documento generado via: rst2pdf -s sphinx %s
-.. ver dos últimos tags: git tag -l --sort=v:refname | tail -n2`, prev, version, name, version, version, log.join('\n'), file)
+.. Documento generado via: rst2pdf -s sphinx ${file}
+.. ver dos últimos tags: git tag -l --sort=v:refname | tail -n2`
 
   const realFile = path.join(__dirname, '..', 'release', file)
   return new Promise((resolve, reject) => {

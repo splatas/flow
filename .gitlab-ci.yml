@@ -88,9 +88,10 @@ release:
     - tags
   script:
     - apk add curl xz py-docutils
-    - PREVIOUS=$(curl -s https://web.flow.com.ar/auth/v2/revision | sed 's/"//g;s/_.*//')
-    - echo gen_release_notes.sh $PREVIOUS $CI_COMMIT_REF_NAME
-    - PROJECT=$CI_PROJECT_NAME sh gen_release_notes.sh $PREVIOUS $CI_COMMIT_REF_NAME
+    - echo '@TODO PLEASE! use productive URL, this is only for base'
+    - PREVIOUS=$(curl -s http://10.254.244.112:8100/base/v1/revision | sed 's/"//g;s/_.*//')
+    - echo release $PREVIOUS $CI_COMMIT_REF_NAME
+    - npm run release $PREVIOUS $CI_COMMIT_REF_NAME
     - >-
       curl -H 'Content-Type: application/json' https://gw-ff-dev.cablevisionflow.com.ar/hermes/supEmail -d '
       {

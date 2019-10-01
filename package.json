@@ -1,7 +1,7 @@
 {
   "name": "base-jaxx",
   "description": "Node.js Bassement/Skeleton API",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "main": "server.js",
   "scripts": {
     "start": "node server",
@@ -10,7 +10,8 @@
     "fixtures": "node static/fixtures.js > static/fixtures.json",
     "pretest": "npm run pm2 && npm run openapi && npm run fixtures",
     "test": "eslint . --fix && TESTING=yes tap -bCRlist --no-coverage test",
-    "coverage": "npm run pretest && tap test"
+    "coverage": "npm run pretest && tap test",
+    "release": "node static/release.js"
   },
   "dependencies": {
     "fastify": "^2.8.0",
@@ -33,6 +34,7 @@
     "tap": "^14.6.5"
   },
   "config": {
+    "fullName": "Base API",
     "prefix": "base",
     "port": 8100
   }
