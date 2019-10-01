@@ -1,4 +1,5 @@
-const pack = require('../../package')
+const pack = require('../../package.json')
+const revision = require('../../static/revision.json')
 const EXPOSE_API = process.env.EXPOSE_API === 'yes'
 
 module.exports = fastify => {
@@ -7,7 +8,8 @@ module.exports = fastify => {
     routePrefix: '/base/doc',
     swagger: {
       info: {
-        title: 'Base',
+        'x-git-version': revision,
+        title: pack.config.fullName,
         description: pack.description,
         version: pack.version
       },

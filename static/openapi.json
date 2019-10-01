@@ -1,14 +1,15 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "x-git-version": "develop-1f5b50d",
-    "title": "base-jaxx",
-    "version": "0.3.0"
+    "x-git-version": "develop-8cce9bb",
+    "title": "Base API",
+    "description": "Node.js Bassement/Skeleton API",
+    "version": "0.5.0"
   },
   "components": {
     "securitySchemes": {
       "keyScheme": {
-        "description": "authorization bearer",
+        "description": "Authorization Bearer",
         "type": "apiKey",
         "name": "Authorization",
         "in": "header"
@@ -17,21 +18,41 @@
   },
   "tags": [
     {
-      "name": "hello",
+      "name": "common",
       "description": "Anon stat end-points"
     }
   ],
   "externalDocs": {
     "url": "https://swagger.io",
-    "description": "Find more info here"
+    "description": "Swagger info here"
   },
   "servers": [
     {
-      "url": "https://127.0.0.1/"
-    },
-    {
-      "url": "http://127.0.0.1/"
+      "url": "http://localhost:8000/"
     }
   ],
-  "paths": {}
+  "paths": {
+    "/base/v1/ping": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "pong",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "pong"
+          }
+        },
+        "summary": "Ping",
+        "description": "Returns pong",
+        "tags": [
+          "common"
+        ]
+      }
+    }
+  }
 }
