@@ -88,8 +88,7 @@ release:
     - tags
   script:
     - apk add curl xz py-docutils
-    - echo '@TODO PLEASE! use productive URL, this is only for base'
-    - PREVIOUS=$(curl -s http://10.254.244.112:8100/base/v1/revision | sed 's/"//g;s/_.*//')
+    - PREVIOUS=$(curl -s https://web.flow.com.ar/api/v1/revision | sed 's/"//g;s/_.*//')
     - echo release $PREVIOUS $CI_COMMIT_REF_NAME
     - npm run release $PREVIOUS $CI_COMMIT_REF_NAME
     - >-
