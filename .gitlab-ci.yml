@@ -6,7 +6,7 @@ cache:
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
-  DEPLOY_TOKEN: "gitlab+deploy-token-13:sLy6ak6MBqyFmyzaxLUs"
+  DEPLOY_TOKEN: "gitlab+deploy-token-14:Ftfs58bYKnybeW8LY511"
 
 before_script:
   - if [ "$NODE_ENV" == "" ]; then NODE_ENV=$CI_COMMIT_REF_NAME; fi
