@@ -30,7 +30,7 @@ module.exports = shipit => {
         '.git',
         'node_modules'
       ],
-      repositoryUrl: `git@10.254.244.122:backend/${name}.git`,
+      repositoryUrl: `git@10.200.172.71:backend/${name}.git`,
       servers: thaServers || [
         'nodejs@10.254.244.112',
         'nodejs@10.254.244.113'
