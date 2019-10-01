@@ -3,10 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 const { exec } = require('child_process')
-const oas = require('fastify-oas')
 const { app } = require('../src/app')
-const pack = require('../package.json')
-const config = require('../src/config.js')
 
 const branch = process.env.DEPLOY_BRANCH || 'develop'
 const command = `git log ${branch} -1 --pretty=format:"%h"`

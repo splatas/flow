@@ -4,7 +4,7 @@ const path = require('path')
 const fs = require('fs')
 const { format } = require('util')
 const { exec: execOrig } = require('child_process')
-const { name, config: { fullName: fullName } } = require('../package.json')
+const { name, config: { fullName } } = require('../package.json')
 
 const commands = {
   tags: 'git tag -l --sort=v:refname',
