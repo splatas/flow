@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 cp /root/extrakeys/nodejs_id_rsa* ..
 

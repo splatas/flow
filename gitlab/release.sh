@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 apk add curl xz py-docutils
 PREVIOUS=$(curl -s https://web.flow.com.ar/api/v1/revision | sed 's/"//g;s/_.*//')
