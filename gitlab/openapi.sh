@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/sh
 
 echo node env $NODE_ENV
 apk add curl

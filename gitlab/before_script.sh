@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/sh
 
 if [ "$NODE_ENV" == "" ]
   then NODE_ENV=$CI_COMMIT_REF_NAME
