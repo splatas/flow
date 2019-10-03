@@ -9,22 +9,7 @@ variables:
   DEPLOY_TOKEN: "gitlab+deploy-token-14:Ftfs58bYKnybeW8LY511"
 
 before_script:
-  - if [ "$NODE_ENV" == "" ]; then NODE_ENV=$CI_COMMIT_REF_NAME; fi
-  - >-
-    if [ "$NODE_ENV" == "develop" -o "$NODE_ENV" == "prod" ];
-      then echo "nice im at ${NODE_ENV}!";
-      else if [ "$NODE_ENV" == "master" ];
-      then
-        NODE_ENV=staging;
-      else
-        NODE_ENV=preprod;
-      fi;
-    fi
-  - CIPROJNAME=$CI_PROJECT_NAME
-  - if [ "$CIPROJNAME" == "api_gateway" ]; then CIPROJNAME="api-gateway"; fi
-  - apk add git
-  - git checkout $CI_COMMIT_REF_NAME
-  - if [ "$CI_COMMIT_REF_NAME" == "develop" -o "$CI_COMMIT_REF_NAME" == "master" ]; then git pull ; fi
+  ./gitlab/before_script.sh
 
 stages:
   - test
@@ -39,7 +24,7 @@ test:
     - master
     - tags
   script:
-    - npm i && CACHE_REDIS=no npm t
+    ./gitlab/test.sh
 
 deploy:
   stage: deploy
@@ -48,13 +33,7 @@ deploy:
     - master
     - tags
   script:
-    - cp /root/extrakeys/nodejs_id_rsa* ..
-    - >
-      sed -ri $'s/repositoryUrl: \`git@([a-zA-Z0-9\.]+):/repositoryUrl:\`http:\\/\\/'$DEPLOY_TOKEN$'@\\1\\//' shipitfile.js
-    - grep repositoryUrl shipitfile.js
-    - apk add openssh
-    - npm i shipit-cli shipit-deploy
-    - DEPLOY_TESTS=no DEPLOY_BRANCH=$CI_COMMIT_REF_NAME npx shipit $NODE_ENV deploy
+    ./gitlab/deploy.sh
 
 openapi:
   stage: openapi
@@ -63,40 +42,11 @@ openapi:
     - master
     - tags
   script:
-    - echo node env $NODE_ENV
-    - apk add curl
-    - npm i
-    - NODE_ENV=$NODE_ENV ./static/openapi.js > "${CIPROJNAME}_${NODE_ENV}".json
-    - echo F '=@'"${CIPROJNAME}_${NODE_ENV}"'.json' https://10.254.244.112/swagger-shiva/v1/upload
-    - unset https_proxy
-    - curl -F '=@'"${CIPROJNAME}_${NODE_ENV}"'.json' -k https://10.254.244.112/swagger-shiva/v1/upload
-    - curl -F '=@'"${CIPROJNAME}_${NODE_ENV}"'.json' -k https://10.254.244.113/swagger-shiva/v1/upload
-    - >-
-      if [ "$CI_COMMIT_REF_NAME" == "develop" -o "$CI_COMMIT_REF_NAME" == "master" ];
-        then curl -H 'Content-Type: application/json' https://gw-ff-dev.cablevisionflow.com.ar/hermes/notification -d '
-        {
-          "branch": "'$CI_COMMIT_REF_NAME'",
-          "nodeEnv": "'$NODE_ENV'",
-          "project": "'$CI_PROJECT_NAME'"
-        }
-        '
-      fi
+    ./gitlab/openapi.sh
 
 release:
   stage: release
   only:
     - tags
   script:
-    - apk add curl xz py-docutils
-    - PREVIOUS=$(curl -s https://web.flow.com.ar/api/v1/revision | sed 's/"//g;s/_.*//')
-    - echo release $PREVIOUS $CI_COMMIT_REF_NAME
-    - npm run release $PREVIOUS $CI_COMMIT_REF_NAME
-    - >-
-      curl -H 'Content-Type: application/json' https://gw-ff-dev.cablevisionflow.com.ar/hermes/supEmail -d '
-      {
-        "branch": "'$CI_COMMIT_REF_NAME'",
-        "nodeEnv": "'$NODE_ENV'",
-        "project": "'$CI_PROJECT_NAME'",
-        "file": "'$(base64 release/$CI_PROJECT_NAME-$CI_COMMIT_REF_NAME.html.xz|tr -d \\n)'"
-      }
-      '
+    ./gitlab/release.sh
