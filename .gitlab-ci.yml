@@ -9,7 +9,7 @@ variables:
   DEPLOY_TOKEN: "gitlab+deploy-token-14:Ftfs58bYKnybeW8LY511"
 
 before_script:
-  ./gitlab/before_script.sh
+  - ./gitlab/before_script.sh
 
 stages:
   - test
