@@ -9,11 +9,6 @@ variables:
   DEPLOY_TOKEN: "gitlab+deploy-token-14:Ftfs58bYKnybeW8LY511"
 
 before_script:
-  - apk add git
-  - git checkout $CI_COMMIT_REF_NAME
-  - if [ "$CI_COMMIT_REF_NAME" == "develop" -o "$CI_COMMIT_REF_NAME" == "master" ]; then git pull; fi
-  - pwd
-  - ls gitlab
   - ./gitlab/before_script.sh
 
 stages:
