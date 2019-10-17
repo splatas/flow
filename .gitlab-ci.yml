@@ -9,6 +9,10 @@ variables:
   DEPLOY_TOKEN: "gitlab+deploy-token-14:Ftfs58bYKnybeW8LY511"
 
 before_script:
+  - echo NODE_ENV $NODE_ENV
+  - echo CI_COMMIT_TAG $CI_COMMIT_TAG
+  - echo CI_PROJECT_NAME $CI_PROJECT_NAME
+  - echo CI_COMMIT_REF_NAME $CI_COMMIT_REF_NAME
   - if [ "$NODE_ENV" == "" ]; then NODE_ENV=$CI_COMMIT_REF_NAME; fi
   - >-
     if [ "$NODE_ENV" == "develop" -o "$NODE_ENV" == "prod" ];
