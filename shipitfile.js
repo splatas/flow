@@ -31,10 +31,7 @@ module.exports = shipit => {
         'node_modules'
       ],
       repositoryUrl: `git@10.200.172.71:backend/${name}.git`,
-      servers: thaServers || [
-        'nodejs@10.254.244.112',
-        'nodejs@10.254.244.113'
-      ],
+      servers: thaServers || require('./shipit/servers/default.json'),
       verboseSSHLevel: 0,
       key: parentDir + '/nodejs_id_rsa'
     },
@@ -42,10 +39,7 @@ module.exports = shipit => {
       branch: process.env.DEPLOY_BRANCH || 'develop'
     },
     staging: {
-      servers: thaServers || [
-        'nodejs@10.254.244.94',
-        'nodejs@10.254.244.95'
-      ],
+      servers: thaServers || require('./shipit/servers/staging.json'),
       branch: process.env.DEPLOY_BRANCH || 'master'
     }
   })
