@@ -49,7 +49,7 @@ const headers = {
 
 const url = fixtures[env].api + '/provision/account'
 
-got(url, { headers, body, method: 'post', json: true, throwHttpErrors: false })
+got(url, { headers, method: 'post', json: body, throwHttpErrors: false })
   .then(req => {
     if (req.statusCode === 200) {
       fixtures[env].token = 'Bearer ' + req.body
