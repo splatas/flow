@@ -8,7 +8,7 @@ const { name, config: { fullName } } = require('../package.json')
 
 const commands = {
   tags: 'git tag -l --sort=v:refname',
-  log: 'git log %s --pretty="* %s" --abbrev-commit --reverse | sed "/^\* [m,M]erge/d" | uniq'
+  log: 'git log %s --pretty="* %s" --abbrev-commit --reverse | sed "/^\\* [m,M]erge/d" | uniq'
 }
 
 // eslint-disable-next-line no-console
