@@ -3,7 +3,11 @@ const { genReqId, timestamp, ...utils } = require('./utils')
 
 const { commonPathsRegister } = require('./paths')
 
-const fastify = require('fastify')({ genReqId, logger: { timestamp } })
+const fastify = require('fastify')({ 
+  requestIdHeader: 'x-request-id',
+  genReqId, 
+  logger: { timestamp },
+})
 
 fastify.decorate('config', config)
 fastify.use(utils.cors)

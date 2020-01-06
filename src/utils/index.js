@@ -6,6 +6,8 @@ const jwt = require('./jwt')
 const errorHandler = require('./errorHandler')
 const ResponseError = require('./ResponseError')
 const openAPI = require('./openapi')
+const weekDays = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ]
+const months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
 
 module.exports = {
   cors,
@@ -26,7 +28,7 @@ module.exports = {
  * @return     {String}  the request id
  */
 function genReqId (req) {
-  const reqId = req.headers['x-request-id'] || (Date.now() + '')
+  const reqId = Date.now()
   return reqId
 }
 
@@ -61,5 +63,20 @@ function request (fastify) {
  * @return     {string}  the String containing the timestamp
  */
 function timestamp () {
-  return ',"time":"' + (new Date()).toISOString() + '"'
+  console.log('zzzzzzzzzzzzzzzzzzz ', (new Date()).getTimezoneOffset())
+  const d = new Date()
+  const zone = d.getTimezoneOffset()
+  let z = 'ART'
+  if (zone !== 180) {
+    z = d.getTimezoneOffset() / -60.0
+  }
+  date = weekDays[d.getDay()] + ' '
+    + months[d.getMonth()] + ' '
+    + d.getHours() + ':'
+    + d.getMinutes() + ':'
+    + d.getSeconds() + '.'
+    + d.getMilliseconds() + ' '
+    + z + ' '
+    + d.getFullYear()
+  return ',"time":"' + date + '"'
 }
