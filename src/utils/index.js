@@ -71,11 +71,18 @@ function timestamp () {
   }
   date = weekDays[d.getDay()] + ' '
     + months[d.getMonth()] + ' '
-    + d.getHours() + ':'
-    + d.getMinutes() + ':'
-    + d.getSeconds() + '.'
+    + zerofill(d.getHours()) + ':'
+    + zerofill(d.getMinutes()) + ':'
+    + zerofill(d.getSeconds()) + '.'
     + d.getMilliseconds() + ' '
     + z + ' '
     + d.getFullYear()
   return ',"time":"' + date + '"'
+}
+
+function zerofill(num) {
+  if (num < 10) {
+    num = '0' + num
+  }
+  return num
 }
