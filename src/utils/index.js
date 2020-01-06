@@ -63,7 +63,6 @@ function request (fastify) {
  * @return     {string}  the String containing the timestamp
  */
 function timestamp () {
-  console.log('zzzzzzzzzzzzzzzzzzz ', (new Date()).getTimezoneOffset())
   const d = new Date()
   const zone = d.getTimezoneOffset()
   let z = 'ART'
