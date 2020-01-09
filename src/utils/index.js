@@ -6,8 +6,8 @@ const jwt = require('./jwt')
 const errorHandler = require('./errorHandler')
 const ResponseError = require('./ResponseError')
 const openAPI = require('./openapi')
-const weekDays = [ 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' ]
-const months = [ 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec' ]
+const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 module.exports = {
   cors,
@@ -69,14 +69,14 @@ function timestamp () {
   if (zone !== 180) {
     z = d.getTimezoneOffset() / -60.0
   }
-  date = weekDays[d.getDay()] + ' '
-    + months[d.getMonth()] + ' '
-    + zerofill(d.getHours()) + ':'
-    + zerofill(d.getMinutes()) + ':'
-    + zerofill(d.getSeconds()) + '.'
-    + d.getMilliseconds() + ' '
-    + z + ' '
-    + d.getFullYear()
+  const date = weekDays[d.getDay()] + ' ' +
+    months[d.getMonth()] + ' ' +
+    zerofill(d.getHours()) + ':' +
+    zerofill(d.getMinutes()) + ':' +
+    zerofill(d.getSeconds()) + '.' +
+    d.getMilliseconds() + ' ' +
+    z + ' ' +
+    d.getFullYear()
   return ',"time":"' + date + '"'
 }
 

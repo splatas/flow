@@ -3,9 +3,9 @@ const { genReqId, timestamp, ...utils } = require('./utils')
 
 const { commonPathsRegister } = require('./paths')
 
-const fastify = require('fastify')({ 
+const fastify = require('fastify')({
   requestIdHeader: 'x-request-id',
-  genReqId, 
+  genReqId,
   logger: { timestamp },
 })
 
