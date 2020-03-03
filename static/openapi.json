@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "x-git-version": "develop-533cbb8",
+    "x-git-version": "develop-7856932",
     "title": "Base API",
     "description": "Node.js Bassement/Skeleton API",
     "version": "0.5.0"
@@ -49,6 +49,50 @@
         },
         "summary": "Ping",
         "description": "Returns pong",
+        "tags": [
+          "common"
+        ]
+      }
+    },
+    "/base/v1/revision": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "revision",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "revision"
+          }
+        },
+        "summary": "Revision",
+        "description": "Returns git last hash",
+        "tags": [
+          "common"
+        ]
+      }
+    },
+    "/base/v1/myip": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "IP",
+                  "type": "string"
+                }
+              }
+            },
+            "description": "IP"
+          }
+        },
+        "summary": "Server Public IP",
+        "description": "Server Public IP",
         "tags": [
           "common"
         ]

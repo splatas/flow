@@ -78,7 +78,7 @@ module.exports = shipit => {
   shipit.blTask('pm2:startOrRestart', async () => {
     const current = `${shipit.config.deployTo}/current`
 
-    const cmd = util.format('cd $(realpath %s) && pm2 reload -a --env %s static/pm2.json && pm2 save',
+    const cmd = util.format('cd $(realpath %s) && pm2 reload -a --env %s ecosystem.config.js && pm2 save',
       current, shipit.environment)
 
     return shipit.remote(cmd)

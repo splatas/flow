@@ -1,14 +1,13 @@
 {
   "name": "base-jaxx",
   "description": "Node.js Bassement/Skeleton API",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "main": "server.js",
   "scripts": {
     "start": "node server",
     "openapi": "node static/openapi.js > static/openapi.json",
-    "pm2": "node static/pm2.js > static/pm2.json",
     "fixtures": "node static/fixtures.js > static/fixtures.json",
-    "pretest": "npm run pm2 && npm run openapi && npm run fixtures",
+    "pretest": "npm run openapi && npm run fixtures",
     "test": "eslint . && TESTING=yes tap -bCRlist --no-coverage test",
     "coverage": "npm run pretest && tap test",
     "release": "node static/release.js"
