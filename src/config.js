@@ -5,7 +5,7 @@ const prefix = `/${pack.config.prefix}/v1`
 
 const activateLogs = process.env.ENABLE_LOGS !== 'no'
 const activateLoggly = process.env.ENABLE_LOGGLY !== 'no'
-const port = process.env.PORT || 8000
+const port = process.env.PORT || pack.config.port || 8100
 process.env.PROJECT = 'base'
 
 const TWO_MONTHS = 60 * 60 * 24 * 30 * 2 // secs * min * hrs * days * months
