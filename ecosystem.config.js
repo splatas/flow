@@ -17,7 +17,7 @@ const app = {
 }
 
 if (inServer) {
-  app.cwd = '/opt/nodejs/repos/promos-menshen/current'
+  app.cwd = '/opt/nodejs/repos/base-jaxx/current'
   app.out_file = '/opt/nodejs/.pm2/logs/pm2-base-jaxx-out.log'
   app.error_file = '/opt/nodejs/.pm2/logs/pm2-base-jaxx-error.log'
 }
