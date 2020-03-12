@@ -1,5 +1,4 @@
-const got = require('got')
-
+const fetch = require('fetch')
 const env = process.env.NODE_ENV || 'local'
 
 const api = 'http://logs-01.loggly.com/inputs/'
@@ -10,14 +9,14 @@ const url = api + token + '/tag' + tags
 
 module.exports = { log, logString }
 
-function log (obj, ip = '') {
+function log(obj, ip = '') {
   logString(JSON.stringify(obj), ip)
 }
 
-function logString (body, ip = '') {
+function logString(body, ip = '') {
   const headers = {}
   if (ip) {
     headers['X-Forwarded-For'] = ip
   }
-  got(url, { headers, body, throwHttpErrors: false })
+  fetch(url, { headers, body: JSON.stringify(body) })
 }

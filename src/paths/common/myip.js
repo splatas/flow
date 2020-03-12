@@ -1,4 +1,3 @@
-const got = require('got')
 const fetch = require('node-fetch')
 const schema = {
   tags: ['common'],
