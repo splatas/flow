@@ -1,5 +1,5 @@
 const got = require('got')
-
+const fetch = require('node-fetch')
 const schema = {
   tags: ['common'],
   summary: 'Server Public IP',
@@ -12,11 +12,11 @@ const schema = {
   }
 }
 
-function handler (fastify, opts, next) {
+function handler(fastify, opts, next) {
   fastify.get('/myip', { schema }, async (request, reply) => {
     const url = 'https://api.myip.com/?format=json'
-    const ip = await got(url)
-    reply.type('application/json').send(JSON.parse(ip.body).ip)
+    const response = await (await fetch(url)).json()
+    reply.type('application/json').send(response.ip)
   })
   next()
 }
