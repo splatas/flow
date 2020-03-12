@@ -1,4 +1,4 @@
-const fetch = require('fetch')
+const fetch = require('node-fetch')
 const env = process.env.NODE_ENV || 'local'
 
 const api = 'http://logs-01.loggly.com/inputs/'
@@ -15,6 +15,7 @@ function log(obj, ip = '') {
 
 function logString(body, ip = '') {
   const headers = {}
+  headers['Content-Type'] = 'application/json'
   if (ip) {
     headers['X-Forwarded-For'] = ip
   }

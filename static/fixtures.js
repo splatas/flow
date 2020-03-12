@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const fetch = require('fetch')
+const fetch = require('node-fetch')
 const env = process.env.NODE_ENV || 'local'
 
 const TEST_ACCOUNT = process.env.TEST_ACCOUNT
@@ -48,11 +48,11 @@ fixtures.local = JSON.parse(JSON.stringify(fixtures.develop))
 
 const body = { accountId: fixtures[env].accountId }
 const headers = {
-  authorization: 'Bearer ' + fixtures[env].token
+  authorization: 'Bearer ' + fixtures[env].token,
+  'Content-Type': 'application/json'
 }
 
 const url = fixtures[env].api + '/provision/account'
-
 fetch(url, { headers, method: 'POST', body: JSON.stringify(body) }).then(
   async res => {
     const resBody = await res.json()
