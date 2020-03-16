@@ -10,7 +10,8 @@
     "pretest": "npm run openapi && npm run fixtures",
     "test": "eslint . && TESTING=yes jest",
     "coverage": "jest --coverage",
-    "release": "node static/release.js"
+    "release": "node static/release.js",
+    "sonar": "jest --coverage && node sonar-project.js"
   },
   "dependencies": {
     "fastify": "^2.10.0",
@@ -29,12 +30,27 @@
     "eslint-plugin-standard": "^4.0.1",
     "fastify-oas": "^2.3.3",
     "jest": "^25.1.0",
+    "jest-sonar-reporter": "^2.0.0",
     "shipit-cli": "^5.1.0",
-    "shipit-deploy": "^5.1.0"
+    "shipit-deploy": "^5.1.0",
+    "sonarqube-scanner": "^2.5.0"
   },
   "config": {
     "fullName": "Base API",
     "prefix": "base",
     "port": 8100
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testRegex": "(/test/.*)\\.js$",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testResultsProcessor": "jest-sonar-reporter"
+  },
+  "jestSonar": {
+    "reportPath": "coverage",
+    "reportFile": "test-report.xml",
+    "indent": 2
   }
 }
