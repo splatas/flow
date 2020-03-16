@@ -1,26 +1,32 @@
-const tap = require('tap')
 const Ajv = require('ajv')
 
 const { app, logger } = require('../../src/app')
 const { schema } = require('../../src/paths/common/ping')
-
 logger.level = 'fatal'
 
 const ajv = new Ajv()
 const validate = ajv.compile(schema.response[200])
 
-tap.test('GET `/base/v1/ping` route', async (t) => {
-  const fastify = await app()
-  t.plan(3)
-  t.tearDown(() => fastify.close())
+describe('Running tests', () => {
+  let fastify
+  test('GET `/base/v1/ping` route, should return status 200', async done => {
+    fastify = await app()
+    const response = await fastify.inject({
+      method: 'GET',
+      url: fastify.config.prefix + '/ping'
+    })
+    typeof response.statusCode === 'number'
+      ? expect(response.statusCode).toBe(200)
+      : expect(response.statusCode).toBe('200')
 
-  const response = await fastify.inject({
-    method: 'GET',
-    url: fastify.config.prefix + '/ping'
+    expect(response.headers['content-type']).toBe(
+      'application/json; charset=utf-8'
+    )
+    expect(validate(response.payload)).toBeTruthy()
+    done()
   })
 
-  t.strictEqual(response.statusCode, 200)
-  t.strictEqual(response.headers['content-type'], 'application/json; charset=utf-8')
-  t.ok(validate(response.payload))
-  t.end()
+  afterAll(async () => {
+    fastify.close()
+  })
 })

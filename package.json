@@ -8,8 +8,8 @@
     "openapi": "node static/openapi.js > static/openapi.json",
     "fixtures": "node static/fixtures.js > static/fixtures.json",
     "pretest": "npm run openapi && npm run fixtures",
-    "test": "eslint . && TESTING=yes tap -bCRlist --no-coverage test",
-    "coverage": "npm run pretest && tap test",
+    "test": "eslint . && TESTING=yes jest",
+    "coverage": "jest --coverage",
     "release": "node static/release.js"
   },
   "dependencies": {
@@ -28,9 +28,9 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "fastify-oas": "^2.3.3",
+    "jest": "^25.1.0",
     "shipit-cli": "^5.1.0",
-    "shipit-deploy": "^5.1.0",
-    "tap": "^14.6.5"
+    "shipit-deploy": "^5.1.0"
   },
   "config": {
     "fullName": "Base API",
