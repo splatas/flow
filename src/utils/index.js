@@ -65,10 +65,15 @@ function md5(str) {
 function request(fastify) {
   fastify.decorate('request', async (url, opts) => {
     const reqOpts = Object.assign({}, fastify.config.request, opts)
-
+    if (reqOpts.body && reqOpts.method.toLowerCase() === 'post') {
+      reqOpts.body = JSON.stringify(reqOpts.body)
+      const content = { 'Content-Type': 'application/json' }
+      reqOpts.headers = { ...reqOpts.headers, ...content }
+    }
     fastify.log.info(`${reqOpts.method} request to ${url}`)
-
-    return fetch(url, reqOpts)
+    const response = await fetch(url, reqOpts)
+    const json = await response.json()
+    return json
   })
 }
 
