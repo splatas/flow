@@ -25,11 +25,14 @@ if (process.argv.length < 3) {
   const prev = process.argv[2]
   const version = await getVersion(process.argv[3])
   const log = await exec(format(commands.log, `${prev}..${version}`))
-  const file = `${name}-${version}`
-  await render(prev, version, name, fullName, file, log.stdout)
-  _l('Generating HTML/PDF')
-  // exec(`cd ${__dirname}/../release && rst2pdf -s sphinx ${file}.rst`)
-  exec(`cd ${__dirname}/../release && rst2html5 ${file}.rst > ${file}.html && xz ${file}.html`)
+  const file = `release_notes_${name}_${prev}_${version}.rst`
+  await Promise.all([
+    render(prev, version, name, file, log.stdout),
+    exec(`cp ${__dirname}/../doc/swagger.json ${__dirname}/../release/swagger_${name}_${version}.json`),
+    exec(`cp ${__dirname}/../shipitfile.js ${__dirname}/../release/shipitfile_${name}_${version}.js`),
+  ])
+  _l('Generating pdf')
+  exec(`cd ${__dirname}/../release && rst2pdf -s sphinx ${file}`)
 })()
 
 async function getVersion (param) {
