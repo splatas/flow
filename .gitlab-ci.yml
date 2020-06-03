@@ -93,6 +93,8 @@ release:
     - tags
   script:
     - apk add curl
+    - echo CI_PROJECT_NAME $CI_PROJECT_NAME
+    - echo CI_COMMIT_REF_NAME $CI_COMMIT_REF_NAME
     - >-
       curl -H 'Content-Type: application/json' http://10.200.172.71/doc/v2/upload -d '
       {
