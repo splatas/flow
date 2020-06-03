@@ -76,8 +76,8 @@ function request(fastify) {
       reqOpts.headers = { ...reqOpts.headers, ...content }
     }
     fastify.log.info(`${reqOpts.method} request to ${url}`)
-    const response = await fetch(url, reqOpts)
-    return response.json()
+    return fetch(url, reqOpts)
+   
   })
 }
 
