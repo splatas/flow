@@ -27,6 +27,7 @@ module.exports = {
   md5,
   errorHandler,
   request,
+  requestJSON,
   ResponseError,
   openAPI,
   genReqId,
@@ -66,7 +67,34 @@ function request(fastify) {
   fastify.decorate('request', async (url, opts) => {
     const reqOpts = Object.assign({}, fastify.config.request, opts)
     if (reqOpts.body && reqOpts.method.toLowerCase() === 'post') {
+      /* Fetch needs the body to be stringified */
       reqOpts.body = JSON.stringify(reqOpts.body)
+    }
+    const hasContentType = Object.keys(reqOpts.headers).some(header => header === 'Content-Type')
+    if (!hasContentType) {
+      const content = { 'Content-Type': 'application/json' }
+      reqOpts.headers = { ...reqOpts.headers, ...content }
+    }
+    fastify.log.info(`${reqOpts.method} request to ${url}`)
+    const response = await fetch(url, reqOpts)
+    return response.json()
+  })
+}
+
+/**
+ * Fastify requestJSON decorator
+ *
+ * @param      {object}  fastify  The fastify
+ */
+function requestJSON(fastify) {
+  fastify.decorate('requestJSON', async (url, opts) => {
+    const reqOpts = Object.assign({}, fastify.config.request, opts)
+    if (reqOpts.body && reqOpts.method.toLowerCase() === 'post') {
+      /* Fetch needs the body to be stringified */
+      reqOpts.body = JSON.stringify(reqOpts.body)
+    }
+    const hasContentType = Object.keys(reqOpts.headers).some(header => header === 'Content-Type')
+    if (!hasContentType) {
       const content = { 'Content-Type': 'application/json' }
       reqOpts.headers = { ...reqOpts.headers, ...content }
     }
@@ -76,7 +104,6 @@ function request(fastify) {
     return json
   })
 }
-
 /**
  * Function used to add the ISO timestamp to request logs
  *

@@ -13,9 +13,10 @@ fastify.decorate('config', config)
 fastify.use(utils.cors)
 fastify.setErrorHandler(utils.errorHandler)
 
-function app () {
+function app() {
   utils.jwt(fastify)
   utils.request(fastify)
+  utils.requestJSON(fastify)
   utils.openAPI(fastify)
 
   commonPathsRegister(fastify, { prefix: fastify.config.prefix })
