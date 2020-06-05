@@ -1,7 +1,7 @@
 FROM alpine:latest AS Intermediate
 RUN apk update && \
-   apk upgrade && \
-   apk add git npm
+  apk upgrade && \
+  apk add git npm
 
 WORKDIR /usr/src/app
 COPY package*.json ./
@@ -20,6 +20,6 @@ WORKDIR /usr/src/app
 
 COPY --from=Intermediate /usr/src/app ./
 
-EXPOSE 8088
+EXPOSE 8100
 
-CMD ["pm2", "start", "--no-daemon", "/usr/src/app/pm2.json"]
+CMD npm start
