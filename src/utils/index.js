@@ -66,18 +66,20 @@ function md5(str) {
 function request(fastify) {
   fastify.decorate('request', async (url, opts) => {
     const reqOpts = Object.assign({}, fastify.config.request, opts)
+    const content = { 'Content-Type': 'application/json' }
     if (reqOpts.body && reqOpts.method.toLowerCase() === 'post') {
       /* Fetch needs the body to be stringified */
       reqOpts.body = JSON.stringify(reqOpts.body)
-    }
-    const hasContentType = Object.keys(reqOpts.headers).some(header => header === 'Content-Type')
-    if (!hasContentType) {
-      const content = { 'Content-Type': 'application/json' }
-      reqOpts.headers = { ...reqOpts.headers, ...content }
+      if (!reqOpts.headers) {
+        reqOpts.headers = content
+      }
+      const hasContentType = Object.keys(reqOpts.headers).some(header => header === 'Content-Type')
+      if (!hasContentType) {
+        reqOpts.headers = { ...reqOpts.headers, ...content }
+      }
     }
     fastify.log.info(`${reqOpts.method} request to ${url}`)
     return fetch(url, reqOpts)
-   
   })
 }
 
@@ -89,14 +91,17 @@ function request(fastify) {
 function requestJSON(fastify) {
   fastify.decorate('requestJSON', async (url, opts) => {
     const reqOpts = Object.assign({}, fastify.config.request, opts)
+    const content = { 'Content-Type': 'application/json' }
     if (reqOpts.body && reqOpts.method.toLowerCase() === 'post') {
       /* Fetch needs the body to be stringified */
       reqOpts.body = JSON.stringify(reqOpts.body)
-    }
-    const hasContentType = Object.keys(reqOpts.headers).some(header => header === 'Content-Type')
-    if (!hasContentType) {
-      const content = { 'Content-Type': 'application/json' }
-      reqOpts.headers = { ...reqOpts.headers, ...content }
+      if (!reqOpts.headers) {
+        reqOpts.headers = content
+      }
+      const hasContentType = Object.keys(reqOpts.headers).some(header => header === 'Content-Type')
+      if (!hasContentType) {
+        reqOpts.headers = { ...reqOpts.headers, ...content }
+      }
     }
     fastify.log.info(`${reqOpts.method} request to ${url}`)
     const response = await fetch(url, reqOpts)

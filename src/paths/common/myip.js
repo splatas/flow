@@ -13,7 +13,7 @@ const schema = {
 function handler(fastify, opts, next) {
   fastify.get('/myip', { schema }, async (request, reply) => {
     const url = 'https://api.myip.com/?format=json'
-    const response = await fastify.request(url)
+    const response = await fastify.requestJSON(url)
     reply.type('application/json').send(response.ip)
   })
   next()
