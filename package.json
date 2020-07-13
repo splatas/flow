@@ -14,10 +14,11 @@
     "sonar": "jest --coverage && node sonar-project.js"
   },
   "dependencies": {
-    "fastify": "^2.10.0",
+    "fastify": "^3.0.2",
     "fastify-jwt": "^1.1.0",
     "fl-loggly": "git+http://10.200.172.71/backend/fl-loggly.git#1.0.4",
     "jsonwebtoken": "^8.5.1",
+    "middie": "^5.1.0",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
