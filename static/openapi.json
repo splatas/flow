@@ -1,10 +1,10 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "x-git-version": "develop-7856932",
+    "x-git-version": "develop-d8f26b2",
     "title": "Base API",
     "description": "Node.js Bassement/Skeleton API",
-    "version": "0.5.0"
+    "version": "0.6.0"
   },
   "components": {
     "securitySchemes": {
@@ -28,7 +28,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8000/"
+      "url": "http://localhost:8100/"
     }
   ],
   "paths": {
