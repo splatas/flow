@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "x-git-version": "develop-d8f26b2",
+    "x-git-version": "develop-21fa271",
     "title": "Base API",
     "description": "Node.js Bassement/Skeleton API",
     "version": "0.6.0"
@@ -32,23 +32,23 @@
     }
   ],
   "paths": {
-    "/base/v1/ping": {
+    "/base/v1/myip": {
       "get": {
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "pong",
+                  "description": "IP",
                   "type": "string"
                 }
               }
             },
-            "description": "pong"
+            "description": "IP"
           }
         },
-        "summary": "Ping",
-        "description": "Returns pong",
+        "summary": "Server Public IP",
+        "description": "Server Public IP",
         "tags": [
           "common"
         ]
@@ -76,23 +76,23 @@
         ]
       }
     },
-    "/base/v1/myip": {
+    "/base/v1/ping": {
       "get": {
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "IP",
+                  "description": "pong",
                   "type": "string"
                 }
               }
             },
-            "description": "IP"
+            "description": "pong"
           }
         },
-        "summary": "Server Public IP",
-        "description": "Server Public IP",
+        "summary": "Ping",
+        "description": "Returns pong",
         "tags": [
           "common"
         ]

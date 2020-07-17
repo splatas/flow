@@ -1,7 +1,7 @@
 const config = require('./config')
-const { genReqId, timestamp, ...utils } = require('./utils')
+const { genReqId, timestamp, ...utils } = require('../utils')
 
-const { commonPathsRegister } = require('./paths')
+// const { commonPathsRegister } = require('../paths')
 
 const fastify = require('fastify')({
   requestIdHeader: 'x-request-id',
@@ -20,7 +20,10 @@ async function app() {
   utils.requestJSON(fastify)
   utils.openAPI(fastify)
 
-  commonPathsRegister(fastify, { prefix: fastify.config.prefix })
+  // commonPathsRegister(fastify, { prefix: fastify.config.prefix })
+  fastify.register(require('../myip'), { prefix: fastify.config.prefix })
+  fastify.register(require('../revision'), { prefix: fastify.config.prefix })
+  fastify.register(require('../ping'), { prefix: fastify.config.prefix })
 
   fastify.ready(err => {
     if (err) throw err

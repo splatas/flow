@@ -4,7 +4,7 @@
   "version": "0.6.0",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
+    "start": "node src/core/server",
     "openapi": "node static/openapi.js > static/openapi.json",
     "fixtures": "node static/fixtures.js > static/fixtures.json",
     "pretest": "npm run openapi && npm run fixtures",

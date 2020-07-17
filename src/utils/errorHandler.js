@@ -1,7 +1,7 @@
-const loggly = require('../loggly')
+const loggly = require('../core/loggly')
 const { responseErrorFancy, getUserOpt } = require('fl-loggly')
 
-function errorHandler (error, request, reply) {
+function errorHandler(error, request, reply) {
   request.log.error(error)
 
   const userOpt = getUserOpt(request)
