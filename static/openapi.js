@@ -9,7 +9,7 @@ const branch = process.env.DEPLOY_BRANCH || 'develop'
 const command = `git log ${branch} -1 --pretty=format:"%h"`
 
 execProm(command).then(async ({ stdout, stderr }) => {
-  const revision = branch + '-' + stdout
+  const revision = branch + '_' + stdout
 
   fs.writeFile(path.join(__dirname, 'revision.json'), '"' + revision + '"', () => { })
 

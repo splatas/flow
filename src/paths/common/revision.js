@@ -14,7 +14,7 @@ const schema = {
 
 function revisionHandler(fastify, opts, next) {
   fastify.get('/revision', { schema }, async (request, reply) => {
-    return reply.type('application/json').send(pkg)
+    return reply.type('application/json').send(`"${pkg}"`)
   })
   next()
 }
