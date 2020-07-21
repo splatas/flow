@@ -11,7 +11,7 @@ scanner(
       'sonar.testExecutionReportPaths': 'coverage/test-report.xml'
     }
   },
-  () => {}
+  () => { }
 )
 
 module.exports = scanner

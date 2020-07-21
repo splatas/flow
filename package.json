@@ -11,7 +11,7 @@
     "test": "eslint . && TESTING=yes jest",
     "coverage": "jest --coverage",
     "release": "node static/release.js",
-    "sonar": "jest --coverage && node sonar-project.js",
+    "sonar": "jest --coverage && node sonar/sonar-project.js",
     "postinstall": "sh static/hooks/vlink.sh"
   },
   "dependencies": {
