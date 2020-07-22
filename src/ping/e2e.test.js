@@ -1,7 +1,7 @@
 const Ajv = require('ajv')
 
-const { app, logger } = require('../../src/core/app')
-const schema = require('../../src/ping/schema')
+const { app, logger } = require('../core/app')
+const schema = require('./schema')
 logger.level = 'fatal'
 
 const ajv = new Ajv()
