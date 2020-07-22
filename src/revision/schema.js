@@ -1,3 +1,4 @@
+'use strict'
 const schema = {
   tags: ['common'],
   summary: 'Revision',

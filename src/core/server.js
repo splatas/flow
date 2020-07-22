@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+'use strict'
 const config = require('./config')
 const { app, logger } = require('./app')
 

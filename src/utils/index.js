@@ -1,3 +1,4 @@
+'use strict'
 const crypto = require('crypto')
 const fetch = require('node-fetch')
 const cors = require('./cors')

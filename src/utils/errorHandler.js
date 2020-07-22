@@ -1,3 +1,4 @@
+'use strict'
 const loggly = require('../core/loggly')
 const { responseErrorFancy, getUserOpt } = require('fl-loggly')
 

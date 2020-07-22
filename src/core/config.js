@@ -1,3 +1,4 @@
+'use strict'
 const pack = require('../../package.json')
 
 const env = process.env.NODE_ENV || 'local'

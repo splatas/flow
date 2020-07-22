@@ -6,7 +6,7 @@ async function getIP(requestJSON) {
     const response = await requestJSON(url)
     return response.ip
   } catch (err) {
-    throw Error(err.toString)
+    throw Error(err.toString())
   }
 }
 module.exports = getIP

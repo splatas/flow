@@ -1,5 +1,6 @@
+'use strict'
 class ResponseError extends Error {
-  constructor (response) {
+  constructor(response) {
     const msg = response.message
     super(msg)
 

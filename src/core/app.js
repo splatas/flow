@@ -1,3 +1,4 @@
+'use strict'
 const config = require('./config')
 const { genReqId, timestamp, ...utils } = require('../utils')
 
@@ -24,6 +25,7 @@ async function app() {
   fastify.register(require('../myip'), { prefix: fastify.config.prefix })
   fastify.register(require('../revision'), { prefix: fastify.config.prefix })
   fastify.register(require('../ping'), { prefix: fastify.config.prefix })
+  fastify.register(require('../jwt'), { prefix: fastify.config.prefix })
 
   fastify.ready(err => {
     if (err) throw err

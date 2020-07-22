@@ -15,8 +15,8 @@
     "postinstall": "sh static/hooks/vlink.sh"
   },
   "dependencies": {
-    "fastify": "^3.0.2",
-    "fastify-jwt": "^1.1.0",
+    "fastify": "^3.1.1",
+    "fastify-jwt": "^2.1.2",
     "fl-loggly": "git+http://10.200.172.71/backend/fl-loggly.git#1.0.4",
     "jsonwebtoken": "^8.5.1",
     "middie": "^5.1.0",
@@ -41,14 +41,6 @@
     "fullName": "Base API",
     "prefix": "base",
     "port": 8100
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "testRegex": "(/test/.*)\\.js$",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ],
-    "testResultsProcessor": "jest-sonar-reporter"
   },
   "jestSonar": {
     "reportPath": "coverage",
