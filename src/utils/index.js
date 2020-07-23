@@ -2,6 +2,7 @@ const crypto = require('crypto')
 const fetch = require('node-fetch')
 const cors = require('./cors')
 const jwt = require('./jwt')
+const logger = require('./logger')
 const errorHandler = require('./errorHandler')
 const ResponseError = require('./ResponseError')
 const openAPI = require('./openapi')
@@ -31,7 +32,8 @@ module.exports = {
   ResponseError,
   openAPI,
   genReqId,
-  timestamp
+  timestamp,
+  logger,
 }
 
 /**
