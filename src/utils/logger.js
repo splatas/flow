@@ -14,5 +14,6 @@ function res(reply) {
     stat: reply.statusCode,
     meth: reply.request.method,
     url: reply.request.url,
+    addr: reply.request.ip,
   }
 }
