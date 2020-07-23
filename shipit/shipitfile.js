@@ -2,7 +2,7 @@ const path = require('path')
 const deploy = require('shipit-deploy')
 const util = require('util')
 
-const { name } = require('./package.json')
+const { name } = require('../package.json')
 const parentDir = path.join(__dirname, '..')
 const noRunTests = process.env.DEPLOY_TESTS === 'no'
 
@@ -31,7 +31,7 @@ module.exports = shipit => {
         'node_modules'
       ],
       repositoryUrl: `git@10.200.172.71:backend/${name}.git`,
-      servers: thaServers || require('./shipit/servers/default.json'),
+      servers: thaServers || require('./servers/default.json'),
       verboseSSHLevel: 0,
       key: parentDir + '/nodejs_id_rsa'
     },
@@ -39,7 +39,7 @@ module.exports = shipit => {
       branch: process.env.DEPLOY_BRANCH || 'develop'
     },
     staging: {
-      servers: thaServers || require('./shipit/servers/staging.json'),
+      servers: thaServers || require('./servers/staging.json'),
       branch: process.env.DEPLOY_BRANCH || 'master'
     }
   })
@@ -78,7 +78,7 @@ module.exports = shipit => {
   shipit.blTask('pm2:startOrRestart', async () => {
     const current = `${shipit.config.deployTo}/current`
 
-    const cmd = util.format('cd $(realpath %s) && pm2 reload -a --env %s ecosystem.config.js && pm2 save',
+    const cmd = util.format('cd $(realpath %s) && pm2 reload -a --env %s static/ecosystem.config.js && pm2 save',
       current, shipit.environment)
 
     return shipit.remote(cmd)

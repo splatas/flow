@@ -1,9 +1,9 @@
-const pack = require('./package.json')
+const pack = require('../package.json')
 const inServer = process.env.HOME === '/opt/nodejs'
 
 const app = {
   name: pack.name,
-  script: './server.js',
+  script: '../src/core/server.js',
   instances: 'max',
   exec_mode: 'cluster',
   trace: true,

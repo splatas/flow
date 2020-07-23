@@ -1,3 +1,4 @@
+'use strict'
 const pack = require('../../package.json')
 const revision = require('../../static/revision.json')
 const EXPOSE_API = process.env.EXPOSE_API === 'yes'

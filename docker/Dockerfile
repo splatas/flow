@@ -5,6 +5,7 @@ RUN apk update && \
 
 WORKDIR /usr/src/app
 COPY package*.json ./
+RUN ls ..
 RUN npm install
 COPY . .
 

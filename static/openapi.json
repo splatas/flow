@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "x-git-version": "develop-d8f26b2",
+    "x-git-version": "develop-da15ec2",
     "title": "Base API",
     "description": "Node.js Bassement/Skeleton API",
     "version": "0.6.0"
@@ -32,23 +32,23 @@
     }
   ],
   "paths": {
-    "/base/v1/ping": {
+    "/base/v1/myip": {
       "get": {
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "pong",
+                  "description": "IP",
                   "type": "string"
                 }
               }
             },
-            "description": "pong"
+            "description": "IP"
           }
         },
-        "summary": "Ping",
-        "description": "Returns pong",
+        "summary": "Server Public IP",
+        "description": "Server Public IP",
         "tags": [
           "common"
         ]
@@ -76,25 +76,126 @@
         ]
       }
     },
-    "/base/v1/myip": {
+    "/base/v1/ping": {
       "get": {
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "IP",
+                  "description": "pong",
                   "type": "string"
                 }
               }
             },
-            "description": "IP"
+            "description": "pong"
           }
         },
-        "summary": "Server Public IP",
-        "description": "Server Public IP",
+        "summary": "Ping",
+        "description": "Returns pong",
         "tags": [
           "common"
+        ]
+      }
+    },
+    "/base/v1/jwt": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Decode user",
+                  "type": "object",
+                  "properties": {
+                    "iat": {
+                      "type": "number"
+                    },
+                    "exp": {
+                      "type": "number"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "number"
+                        },
+                        "deviceToken": {
+                          "type": "string"
+                        },
+                        "deviceInfo": {
+                          "type": "object",
+                          "properties": {
+                            "deviceName": {
+                              "type": "string"
+                            },
+                            "type": {
+                              "type": "string"
+                            },
+                            "deviceModel": {
+                              "type": "string"
+                            },
+                            "deviceBrand": {
+                              "type": "string"
+                            },
+                            "firmwareVersion": {
+                              "type": "string"
+                            },
+                            "deviceOsVersion": {
+                              "type": "string"
+                            },
+                            "ipAddress": {
+                              "type": "string"
+                            },
+                            "casId": {
+                              "type": "string"
+                            },
+                            "uuid": {
+                              "type": "string"
+                            },
+                            "mac": {
+                              "type": "string"
+                            },
+                            "appVersion": {
+                              "type": "string"
+                            },
+                            "deviceType": {
+                              "type": "string"
+                            },
+                            "networkType": {
+                              "type": "string"
+                            },
+                            "deviceOs": {
+                              "type": "string"
+                            },
+                            "playerType": {
+                              "type": "string"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Decode user"
+          }
+        },
+        "summary": "Decoded user",
+        "description": "Decoded user",
+        "tags": [
+          "common"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ]
       }
     }

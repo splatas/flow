@@ -1,4 +1,5 @@
-const pack = require('../package.json')
+'use strict'
+const pack = require('../../package.json')
 
 const env = process.env.NODE_ENV || 'local'
 const prefix = `/${pack.config.prefix}/v1`

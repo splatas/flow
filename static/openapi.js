@@ -3,7 +3,7 @@
 const fs = require('fs')
 const path = require('path')
 const { exec } = require('child_process')
-const { app } = require('../src/app')
+const { app } = require('../src/core/app')
 
 const branch = process.env.DEPLOY_BRANCH || 'develop'
 const command = `git log ${branch} -1 --pretty=format:"%h"`

@@ -1,7 +1,6 @@
+'use strict'
 const config = require('./config')
-const { logger, ...utils } = require('./utils')
-
-const { commonPathsRegister } = require('./paths')
+const { logger, ...utils } = require('../utils')
 
 const fastify = require('fastify')({
   requestIdHeader: 'x-request-id',
@@ -19,7 +18,10 @@ async function app() {
   utils.requestJSON(fastify)
   utils.openAPI(fastify)
 
-  commonPathsRegister(fastify, { prefix: fastify.config.prefix })
+  fastify.register(require('../myip'), { prefix: fastify.config.prefix })
+  fastify.register(require('../revision'), { prefix: fastify.config.prefix })
+  fastify.register(require('../ping'), { prefix: fastify.config.prefix })
+  fastify.register(require('../jwt'), { prefix: fastify.config.prefix })
 
   fastify.ready(err => {
     if (err) throw err
