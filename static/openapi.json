@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "x-git-version": "develop-21fa271",
+    "x-git-version": "develop-da15ec2",
     "title": "Base API",
     "description": "Node.js Bassement/Skeleton API",
     "version": "0.6.0"
