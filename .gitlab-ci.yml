@@ -59,7 +59,7 @@ deploy:
     - grep repositoryUrl shipit/shipitfile.js
     - apk add openssh
     - npm i shipit-cli shipit-deploy
-    - DEPLOY_TESTS=no DEPLOY_BRANCH=$CI_COMMIT_REF_NAME npx shipit $NODE_ENV deploy
+    - DEPLOY_TESTS=no DEPLOY_BRANCH=$CI_COMMIT_REF_NAME npx shipit $NODE_ENV deploy --shipitfile shipit/shipitfile.js
 
 openapi:
   stage: openapi
