@@ -1,16 +1,16 @@
 'use strict'
 const config = require('./config')
 const { logger, ...utils } = require('../utils')
-
 const fastify = require('fastify')({
   requestIdHeader: 'x-request-id',
   logger,
 })
 
 async function app() {
-  await fastify.register(require('middie'))
+  // await fastify.register(require('middie'))
+  // fastify.use(utils.cors)
+  fastify.addHook('onRequest', utils.corsHook)
   fastify.decorate('config', config)
-  fastify.use(utils.cors)
   fastify.setErrorHandler(utils.errorHandler)
 
   utils.jwt(fastify)
