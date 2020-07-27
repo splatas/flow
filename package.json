@@ -41,9 +41,17 @@
     "prefix": "base",
     "port": 8100
   },
+  "jest": {
+    "testEnvironment": "node",
+    "testRegex": "(/src/.*)\\.test.js$",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testResultsProcessor": "jest-sonar-reporter"
+  },
   "jestSonar": {
     "reportPath": "coverage",
-    "reportFile": "test-report.xml",
+    "reportFile": "test-reporter.xml",
     "indent": 2
   }
 }
