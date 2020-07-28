@@ -11,8 +11,9 @@
     "test": "eslint . && TESTING=yes jest",
     "coverage": "jest --coverage",
     "release": "node static/release.js",
-    "sonar": "jest --coverage && node sonar/sonar-project.js",
-    "postinstall": "sh static/hooks/vlink.sh"
+    "sonar": "jest --coverage && node static/sonar-project.js",
+    "postinstall": "sh static/hooks/vlink.sh",
+    "docker-build": "docker build -f static/docker/Dockerfile . -t base-jaxx"
   },
   "dependencies": {
     "fastify": "^3.1.1",
