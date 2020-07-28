@@ -3,7 +3,7 @@ const inServer = process.env.HOME === '/opt/nodejs'
 
 const app = {
   name: pack.name,
-  script: '../src/core/server.js',
+  script: 'src/core/server.js',
   instances: 'max',
   exec_mode: 'cluster',
   trace: true,
