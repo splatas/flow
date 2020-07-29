@@ -1,17 +1,21 @@
 const path = require('path')
 const deploy = require('shipit-deploy')
 const util = require('util')
+const parentDir = path.join(__dirname, '..')
 
 const { name } = require('./package.json')
-const parentDir = path.join(__dirname, '..')
-const noRunTests = process.env.DEPLOY_TESTS === 'no'
 
 let thaServers
 if (process.env.DEPLOY_SERVERS) {
   thaServers = process.env.DEPLOY_SERVERS.split(',')
 }
 
-module.exports = (shipit) => {
+const runTests = process.env.DEPLOY_TESTS !== 'no'
+const testCred = {
+  account: process.env.TEST_ACCOUNT,
+  pass: process.env.TEST_PASS,
+}
+module.exports = shipit => {
   deploy(shipit)
 
   const deployTo = `/opt/nodejs/repos/${name}`
@@ -21,16 +25,18 @@ module.exports = (shipit) => {
     default: {
       keepReleases: 5,
       deleteOnRollback: true,
-      shallowClone: false,
-      updateSubmodules: true,
+      shallowClone: true,
       workspace,
       deployTo,
-      ignores: ['.git', 'node_modules'],
+      ignores: [
+        '.git',
+        'node_modules'
+      ],
       key: parentDir + '/nodejs_id_rsa',
       strict: 'no',
       repositoryUrl: `git@10.200.172.71:backend/${name}.git`,
       servers: thaServers || require('./static/servers/default.json'),
-      verboseSSHLevel: 0,
+      verboseSSHLevel: 0
     },
     develop: {
       branch: process.env.DEPLOY_BRANCH || 'develop',
@@ -54,50 +60,62 @@ module.exports = (shipit) => {
   shipit.blTask('reversion', async () => {
     const branch = shipit.config.branch
 
-    const gitLog = util.format(
-      'npm i && DEPLOY_BRANCH=%s npm run openapi',
-      branch
-    )
-    return shipit.local(gitLog, { cwd: shipit.workspace })
+    const gitLog = util.format('git log %s -1 --pretty=format:"%h"', branch)
+    const { stdout } = await shipit.local(gitLog, { cwd: shipit.workspace })
+    const version = branch + '_' + stdout.trim()
+
+    const file = `${shipit.workspace}/package.json`
+    const reversion = util.format('sed -i s/{{X-GIT-VERSION}}/%s/ %s', version, file)
+
+    return shipit.local(reversion)
   })
 
   shipit.blTask('npm:test', async () => {
-    if (noRunTests) {
-      return
-    }
     const servers = shipit.config.servers
-    const branch = shipit.config.branch
-    const server = servers[Math.floor(Math.random() * servers.length)].replace(
-      /.*@/,
-      ''
-    )
+    const server = servers[Math.floor(Math.random() * servers.length)].replace(/.*@/, '')
 
-    // mierva sux monky cox, test @ one server at time
-    const cmd =
-      '/usr/sbin/ip addr | grep "inet " | sed -r "s/ .*inet ([0-9\\.]+).*/\\1/" | grep -F "%s"' +
-      ' && cd %s && DEPLOY_BRANCH=%s npm test || echo "Not here hao!"'
-    return shipit.remote(util.format(cmd, server, shipit.releasePath, branch))
+    let creds = ''
+    if (testCred.account) {
+      creds = `TEST_ACCOUNT=${testCred.account} `
+    }
+    if (testCred.pass) {
+      creds += `TEST_PASS=${testCred.pass} `
+    }
+
+    const cmd = util.format('cd %s && %s./testOneServer.sh %s', shipit.releasePath, creds, server)
+
+    if (!runTests) {
+      return null
+    }
+
+    return shipit.remote(cmd)
   })
 
   shipit.blTask('pm2:startOrRestart', async () => {
     const current = `${shipit.config.deployTo}/current`
 
-    const cmd = util.format(
-      'cd $(realpath %s) && pm2 reload -a --env %s static/ecosystem.config.js && pm2 save',
-      current,
-      shipit.environment
-    )
+    // * CD to project path
+    // * generate pm2.json by NODE_ENV
+    // * reload/start pm2
+    // * dump pm2 apps to file
+    const cmd = util.format('cd $(realpath %s) && npm run pm2 && pm2 reload pm2.json -a && pm2 save', current)
 
     return shipit.remote(cmd)
+  })
+
+  shipit.blTask('runAutomationTests', () => {
+    const capital = shipit.environment[0].toUpperCase() + shipit.environment.substring(1)
+    const cmd = `curl http://10.200.172.73:8080/generic-webhook-trigger/invoke?token=Tr1gg3r:Run-ApiGatewayAuth-${capital}`
+    return shipit.local(cmd)
   })
 
   shipit.task('postinit', ['create:workspace'])
 
   shipit.task('postupdated', ['npm:install', 'npm:test'])
 
-  shipit.task('postdeployed', ['pm2:startOrRestart'])
+  shipit.task('postdeployed', ['pm2:startOrRestart', 'runAutomationTests'])
 
-  shipit.task('postrollbacked', ['pm2:startOrRestart'])
+  shipit.task('postrollbacked', ['pm2:startOrRestart', 'runAutomationTests'])
 
   shipit.on('init', async () => shipit.start('postinit'))
 
