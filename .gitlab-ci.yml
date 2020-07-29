@@ -59,8 +59,8 @@ deploy:
     - grep repositoryUrl shipitfile.js
     - apk add openssh
     - npm i shipit-cli shipit-deploy
-    - DEPLOY_TESTS=no DEPLOY_BRANCH=$CI_COMMIT_REF_NAME npx shipit $NODE_ENV deploy
-
+    - DEPLOY_TEST=no npx shipit develop deploy
+#DEPLOY_TESTS=no DEPLOY_BRANCH=$CI_COMMIT_REF_NAME npx shipit $NODE_ENV deploy harcodeo
 openapi:
   stage: openapi
   only:
