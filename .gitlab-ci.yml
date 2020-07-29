@@ -1,9 +1,9 @@
 image: node:10-alpine
-cache:
-  key: '${CI_PROJECT_NAME}_${CI_COMMIT_REF_NAME}'
-  untracked: true
-  paths:
-    - node_modules/
+#cache:
+#  key: '${CI_PROJECT_NAME}_${CI_COMMIT_REF_NAME}'
+#  untracked: true
+#  paths:
+#    - node_modules/
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
