@@ -10,7 +10,6 @@ const command = `git log ${branch} -1 --pretty=format:"%h"`
 
 execProm(command).then(async ({ stdout, stderr }) => {
   const revision = branch + '_' + stdout
-  console.log({ revision })
 
   fs.writeFile(path.join(__dirname, 'revision.json'), '"' + revision + '"', () => { })
 
