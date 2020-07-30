@@ -13,9 +13,9 @@ const commands = {
 
 // eslint-disable-next-line no-console
 const _l = console.log.bind(console)
+
 // eslint-disable-next-line no-console
 const _e = console.error.bind(console)
-
 if (process.argv.length < 3) {
   _l(`Usage: ${process.argv[1]} tag1 tag2`)
   process.exit(1)
@@ -26,16 +26,29 @@ if (process.argv.length < 3) {
   const version = await getVersion(process.argv[3])
   const log = await exec(format(commands.log, `${prev}..${version}`))
   const file = `release_notes_${name}_${prev}_${version}.rst`
+  const releasePath = path.join(__dirname, '..', 'release')
+  try {
+    await fs.statSync(releasePath)
+  } catch (err) {
+    exec(`mkdir ${releasePath}`)
+  }
   await Promise.all([
-    render(prev, version, name, file, log.stdout),
-    exec(`cp ${__dirname}/../doc/swagger.json ${__dirname}/../release/swagger_${name}_${version}.json`),
-    exec(`cp ${__dirname}/../shipitfile.js ${__dirname}/../release/shipitfile_${name}_${version}.js`),
+    render(prev, version, name, fullName, file, log.stdout),
+    exec(`cp ${__dirname}/openapi.json ${releasePath}/openapi_${name}_${version}.json`),
+    exec(`cp ${__dirname}/shipitfile.js ${releasePath}/shipitfile_${name}_${version}.js`)
   ])
   _l('Generating pdf')
-  exec(`cd ${__dirname}/../release && rst2pdf -s sphinx ${file}`)
+  const docParams = {
+    channel: 'backend',
+    repo: `backend/${name}`,
+    to: version
+  }
+  const output = await exec(`curl 'http://10.200.172.71/doc/v2/upload' -X POST -H 'Content-Type: application/json'  -d '${JSON.stringify(docParams)}'`)
+  console.log(`curl 'http://10.200.172.71/doc/v2/upload' -X POST -H 'Content-Type: application/json'  -d '${JSON.stringify(docParams)}'`)
+  console.log(output)
 })()
 
-async function getVersion (param) {
+async function getVersion(param) {
   if (param) {
     return param
   }
@@ -48,7 +61,7 @@ async function getVersion (param) {
   }
 }
 
-function exec (cmd) {
+function exec(cmd) {
   return new Promise((resolve, reject) => {
     execOrig(cmd, (error, stdout, stderr) => {
       if (error) {
