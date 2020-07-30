@@ -74,8 +74,8 @@ openapi:
     - NODE_ENV=$NODE_ENV ./static/openapi.js > "${CIPROJNAME}_${NODE_ENV}".json
     - echo F '=@'"${CIPROJNAME}_${NODE_ENV}"'.json' https://10.254.244.112/swagger-shiva/v1/upload
     - unset https_proxy
-    - curl -F '=@'"${CIPROJNAME}_${NODE_ENV}"'.json' -k https://10.254.244.112/swagger-shiva/v1/upload
-    - curl -F '=@'"${CIPROJNAME}_${NODE_ENV}"'.json' -k https://10.254.244.113/swagger-shiva/v1/upload
+    - curl -F '=@'"${CIPROJNAME}_${NODE_ENV}"'.json' -k https://dev:carlinkaker@10.254.244.112/swagger-shiva/v1/upload
+    - curl -F '=@'"${CIPROJNAME}_${NODE_ENV}"'.json' -k https://dev:carlinkaker@10.254.244.113/swagger-shiva/v1/upload
     - >-
       if [ "$CI_COMMIT_REF_NAME" == "develop" -o "$CI_COMMIT_REF_NAME" == "master" ];
         then curl -H 'Content-Type: application/json' https://gw-ff-dev.cablevisionflow.com.ar/hermes/notification -d '
