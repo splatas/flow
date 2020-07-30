@@ -83,7 +83,7 @@ module.exports = (shipit) => {
     const current = `${shipit.config.deployTo}/current`
 
     const cmd = util.format(
-      'cd $(realpath %s) && pm2 reload -a --env %s ecosystem.config.js && pm2 save',
+      'cd $(realpath %s) && pm2 reload -a --env %s static/ecosystem.config.js && pm2 save',
       current,
       shipit.environment
     )
