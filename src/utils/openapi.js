@@ -2,7 +2,7 @@
 const pack = require('../../package.json')
 const vars = require('../../config/vars')
 const revision = require('../../static/revision.json')
-const EXPOSE_API = vars.expose_api
+const EXPOSE_API = vars.expose_api || false
 
 module.exports = fastify => {
   fastify.register(require('fastify-oas'), {

@@ -4,7 +4,7 @@ const util = require('util')
 const vars = require('../config/vars')
 const { name } = require('../package.json')
 const parentDir = path.join(__dirname, '../..')
-const noRunTests = vars.deploy_test
+const noRunTests = vars.deploy_test || true
 
 module.exports = (shipit) => {
   deploy(shipit)
@@ -28,11 +28,11 @@ module.exports = (shipit) => {
       verboseSSHLevel: 0,
     },
     develop: {
-      branch: vars.deploy_branch,
+      branch: vars.deploy_branch || 'develop',
     },
     staging: {
       servers: require('./servers/staging.json'),
-      branch: vars.deploy_branch
+      branch: vars.deploy_branch || 'master'
     },
   })
 

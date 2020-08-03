@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const fetch = require('node-fetch')
 const vars = require('../config/vars')
-const env = vars.enviroment
+const env = vars.enviroment || 'local'
 
 const fixtures = {
   prod: {
