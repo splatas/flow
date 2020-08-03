@@ -4,3 +4,5 @@
 /release
 /coverage
 /.scannerwork
+/config/secrets.js
+/config/vars.js

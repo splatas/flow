@@ -1,5 +1,5 @@
 'use strict'
-const config = require('./config')
+const config = require('../../config/config')
 const { logger, ...utils } = require('../utils')
 const fastify = require('fastify')({
   requestIdHeader: 'x-request-id',

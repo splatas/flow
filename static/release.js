@@ -73,7 +73,6 @@ function exec(cmd) {
 }
 
 function render(prev, version, name, fullName, file, log) {
-  file += '.rst'
   _l('Generating', file)
   const title = fullName + ' :: Notas de versión'
   const line = '='.repeat(title.length)
