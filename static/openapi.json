@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "x-git-version": "develop_bd63927",
+    "x-git-version": "develop_dc4d921",
     "title": "Base API",
     "description": "Node.js Bassement/Skeleton API",
     "version": "0.6.0"
@@ -28,7 +28,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8100/"
+      "url": "https://gw-ff-dev.cablevisionflow.com.ar/"
     }
   ],
   "paths": {

@@ -1,15 +1,10 @@
 const path = require('path')
 const deploy = require('shipit-deploy')
 const util = require('util')
-
+const vars = require('../config/vars')
 const { name } = require('../package.json')
 const parentDir = path.join(__dirname, '../..')
-const noRunTests = process.env.DEPLOY_TESTS === 'no'
-
-let thaServers
-if (process.env.DEPLOY_SERVERS) {
-  thaServers = process.env.DEPLOY_SERVERS.split(',')
-}
+const noRunTests = vars.deploy_test
 
 module.exports = (shipit) => {
   deploy(shipit)
@@ -29,15 +24,15 @@ module.exports = (shipit) => {
       key: parentDir + '/nodejs_id_rsa',
       strict: 'no',
       repositoryUrl: `git@10.200.172.71:backend/${name}.git`,
-      servers: thaServers || require('./servers/default.json'),
+      servers: require('./servers/default.json'),
       verboseSSHLevel: 0,
     },
     develop: {
-      branch: process.env.DEPLOY_BRANCH || 'develop',
+      branch: vars.deploy_branch,
     },
     staging: {
-      servers: thaServers || require('./servers/staging.json'),
-      branch: process.env.DEPLOY_BRANCH || 'master',
+      servers: require('./servers/staging.json'),
+      branch: vars.deploy_branch
     },
   })
 

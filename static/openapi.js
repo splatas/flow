@@ -4,8 +4,8 @@ const fs = require('fs')
 const path = require('path')
 const { exec } = require('child_process')
 const { app } = require('../src/core/app')
-
-const branch = process.env.DEPLOY_BRANCH || 'develop'
+const vars = require('../config/vars')
+const branch = vars.deploy_branch
 const command = `git log ${branch} -1 --pretty=format:"%h"`
 
 execProm(command).then(async ({ stdout, stderr }) => {

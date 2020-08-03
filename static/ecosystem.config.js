@@ -1,5 +1,6 @@
 const pack = require('../package.json')
-const inServer = process.env.HOME === '/opt/nodejs'
+const vars = require('../config/vars')
+const inServer = vars.home
 
 const app = {
   name: pack.name,
