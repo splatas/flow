@@ -28,7 +28,7 @@
   },
   "servers": [
     {
-      "url": "https://gw-ff-dev.cablevisionflow.com.ar/"
+      "url": "http://localhost:8100/"
     }
   ],
   "paths": {

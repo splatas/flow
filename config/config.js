@@ -1,17 +1,16 @@
 'use strict'
 const pack = require('../package.json')
-const vars = require('./vars')
-const secrets = require('./secrets')
-const env = vars.enviroment || 'local'
+const variables = require('./variables')
+const env = variables.enviroment || 'local'
 const prefix = `/${pack.config.prefix}/v1`
 
-const activateLogs = vars.enable_logs || false
-const activateLoggly = vars.enable_loggly || false
-const port = vars.port || 8100
+const activateLogs = variables.enable_logs || false
+const activateLoggly = variables.enable_loggly || false
+const port = variables.port || 8100
 
 const TWO_MONTHS = 60 * 60 * 24 * 30 * 2 // secs * min * hrs * days * months
 
-const minervaHost = vars.minerva_host || 'geo.mnedge.cvattv.com.ar'
+const minervaHost = variables.minerva_host || 'geo.mnedge.cvattv.com.ar'
 const config = {
   prefix,
   port,
@@ -19,7 +18,7 @@ const config = {
     level: 'info'
   },
   jwt: {
-    secret: secrets.SECRET || 'luego veremos algo mejor 201807',
+    secret: variables.JWT_SECRET || 'luego veremos algo mejor 201807',
     exp: TWO_MONTHS,
     sign: {
       expiresIn: TWO_MONTHS

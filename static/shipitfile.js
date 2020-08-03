@@ -1,10 +1,10 @@
 const path = require('path')
 const deploy = require('shipit-deploy')
 const util = require('util')
-const vars = require('../config/vars')
+const variables = require('../config/variables')
 const { name } = require('../package.json')
 const parentDir = path.join(__dirname, '../..')
-const noRunTests = vars.deploy_test || true
+const noRunTests = variables.deploy_test || true
 
 module.exports = (shipit) => {
   deploy(shipit)

@@ -1,6 +1,6 @@
 const pack = require('../package.json')
-const vars = require('../config/vars')
-const inServer = vars.home || null
+const variables = require('../config/variables')
+const inServer = variables.home || null
 
 const app = {
   name: pack.name,

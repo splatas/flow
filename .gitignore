@@ -5,4 +5,4 @@
 /coverage
 /.scannerwork
 /config/secrets.js
-/config/vars.js
+/config/variables.js
