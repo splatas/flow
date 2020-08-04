@@ -30,6 +30,8 @@ before_script:
   - apk add git
   - git checkout $CI_COMMIT_REF_NAME
   - if [ "$CI_COMMIT_REF_NAME" == "develop" -o "$CI_COMMIT_REF_NAME" == "master" ]; then git pull ; fi
+  - FILE=config/variables.js
+  - if [ ! -f "$FILE" ]; then ln -s variables.${NODE_ENV}.js "$FILE"; fi
 
 stages:
   - test
@@ -44,11 +46,6 @@ test:
     - master
     - tags
   script:
-    - FILE=config/variables.js
-    - >-
-      if ! -f "$FILE";
-        then ln -s variables.${NODE_ENV}.js "$FILE" && cat "$FILE";
-      fi
     - npm i && CACHE_REDIS=no npm t
 
 deploy:
