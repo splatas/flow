@@ -31,7 +31,11 @@ before_script:
   - git checkout $CI_COMMIT_REF_NAME
   - if [ "$CI_COMMIT_REF_NAME" == "develop" -o "$CI_COMMIT_REF_NAME" == "master" ]; then git pull ; fi
   - FILE=config/variables.js
-  - if [ ! -f "$FILE" ]; then ln -s variables.${NODE_ENV}.js "$FILE" && cat "$FILE"; fi
+  - >-
+    else if ! -f "$FILE";
+      then ln -s variables.${NODE_ENV}.js "$FILE";
+      else cat "$FILE";
+    fi
 
 stages:
   - test
