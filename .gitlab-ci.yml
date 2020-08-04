@@ -32,11 +32,11 @@ before_script:
   - if [ "$CI_COMMIT_REF_NAME" == "develop" -o "$CI_COMMIT_REF_NAME" == "master" ]; then git pull ; fi
   - FILE=config/variables.js
   - >-
-    if ! -f "$FILE";
+    if test -f "$FILE";
       then
-        ln -s variables.${NODE_ENV}.js "$FILE";
-      else
         cat "$FILE";
+      else
+        ln -s variables.${NODE_ENV}.js "$FILE";
     fi
 
 stages:

@@ -1,4 +1,5 @@
 FILE=config/variables.js
-if test -f "$FILE";
-	then cat "$FILE";
+if ! -f "$FILE";
+	then echo "NO EXISTE";
+	else cat "$FILE"
 fi
