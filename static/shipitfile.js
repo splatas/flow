@@ -28,11 +28,11 @@ module.exports = (shipit) => {
       verboseSSHLevel: 0,
     },
     develop: {
-      branch: vars.deploy_branch || 'develop',
+      branch: variables.deploy_branch || 'develop',
     },
     staging: {
       servers: require('./servers/staging.json'),
-      branch: vars.deploy_branch || 'master'
+      branch: variables.deploy_branch || 'master'
     },
   })
 

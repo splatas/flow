@@ -1,7 +1,7 @@
 'use strict'
 const fetch = require('node-fetch')
-const vars = require('../../config/variables')
-const env = vars.enviroment || 'local'
+const variables = require('../../config/variables')
+const env = variables.enviroment || 'local'
 
 const api = 'http://logs-01.loggly.com/inputs/'
 const token = '2c52ac24-4b71-40fd-975b-4f31b92c0546'

@@ -1,8 +1,8 @@
 'use strict'
 const pack = require('../../package.json')
-const vars = require('../../config/variables')
+const variables = require('../../config/variables')
 const revision = require('../../static/revision.json')
-const EXPOSE_API = vars.expose_api || false
+const EXPOSE_API = variables.expose_api || false
 
 module.exports = fastify => {
   fastify.register(require('fastify-oas'), {
