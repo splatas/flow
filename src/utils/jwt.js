@@ -1,3 +1,4 @@
+'use strict'
 const jwt = require('fastify-jwt')
 const ResponseError = require('./ResponseError')
 

@@ -1,17 +1,12 @@
 const path = require('path')
 const deploy = require('shipit-deploy')
 const util = require('util')
+const variables = require('../config/variables')
+const { name } = require('../package.json')
+const parentDir = path.join(__dirname, '../..')
+const noRunTests = variables.deploy_test || true
 
-const { name } = require('./package.json')
-const parentDir = path.join(__dirname, '..')
-const noRunTests = process.env.DEPLOY_TESTS === 'no'
-
-let thaServers
-if (process.env.DEPLOY_SERVERS) {
-  thaServers = process.env.DEPLOY_SERVERS.split(',')
-}
-
-module.exports = shipit => {
+module.exports = (shipit) => {
   deploy(shipit)
 
   const deployTo = `/opt/nodejs/repos/${name}`
@@ -21,33 +16,24 @@ module.exports = shipit => {
     default: {
       keepReleases: 5,
       deleteOnRollback: true,
-      shallowClone: true,
+      shallowClone: false,
       updateSubmodules: true,
-      strict: 'no',
       workspace,
       deployTo,
-      ignores: [
-        '.git',
-        'node_modules'
-      ],
+      ignores: ['.git', 'node_modules'],
+      key: parentDir + '/nodejs_id_rsa',
+      strict: 'no',
       repositoryUrl: `git@10.200.172.71:backend/${name}.git`,
-      servers: thaServers || [
-        'nodejs@10.254.244.112',
-        'nodejs@10.254.244.113'
-      ],
+      servers: require('./servers/default.json'),
       verboseSSHLevel: 0,
-      key: parentDir + '/nodejs_id_rsa'
     },
     develop: {
-      branch: process.env.DEPLOY_BRANCH || 'develop'
+      branch: variables.deploy_branch || 'develop',
     },
     staging: {
-      servers: thaServers || [
-        'nodejs@10.254.244.94',
-        'nodejs@10.254.244.95'
-      ],
-      branch: process.env.DEPLOY_BRANCH || 'master'
-    }
+      servers: require('./servers/staging.json'),
+      branch: variables.deploy_branch || 'master'
+    },
   })
 
   shipit.blTask('create:workspace', async () => {
@@ -61,9 +47,14 @@ module.exports = shipit => {
   })
 
   shipit.blTask('reversion', async () => {
+    const isRemote = false
+    await createConfigSymLink(isRemote)
     const branch = shipit.config.branch
 
-    const gitLog = util.format('npm i && DEPLOY_BRANCH=%s npm run openapi', branch)
+    const gitLog = util.format(
+      'npm i && DEPLOY_BRANCH=%s npm run openapi',
+      branch
+    )
     return shipit.local(gitLog, { cwd: shipit.workspace })
   })
 
@@ -73,19 +64,28 @@ module.exports = shipit => {
     }
     const servers = shipit.config.servers
     const branch = shipit.config.branch
-    const server = servers[Math.floor(Math.random() * servers.length)].replace(/.*@/, '')
+    const server = servers[Math.floor(Math.random() * servers.length)].replace(
+      /.*@/,
+      ''
+    )
 
     // mierva sux monky cox, test @ one server at time
-    const cmd = '/usr/sbin/ip addr | grep "inet " | sed -r "s/ .*inet ([0-9\\.]+).*/\\1/" | grep -F "%s"' +
+    const cmd =
+      '/usr/sbin/ip addr | grep "inet " | sed -r "s/ .*inet ([0-9\\.]+).*/\\1/" | grep -F "%s"' +
       ' && cd %s && DEPLOY_BRANCH=%s npm test || echo "Not here hao!"'
     return shipit.remote(util.format(cmd, server, shipit.releasePath, branch))
   })
 
   shipit.blTask('pm2:startOrRestart', async () => {
+    const isRemote = true
+    await createConfigSymLink(isRemote)
     const current = `${shipit.config.deployTo}/current`
 
-    const cmd = util.format('cd $(realpath %s) && pm2 reload -a --env %s static/pm2.json && pm2 save',
-      current, shipit.environment)
+    const cmd = util.format(
+      'cd $(realpath %s) && pm2 reload -a --env %s static/ecosystem.config.js && pm2 save',
+      current,
+      shipit.environment
+    )
 
     return shipit.remote(cmd)
   })
@@ -107,4 +107,14 @@ module.exports = shipit => {
   shipit.on('deployed', async () => shipit.start('postdeployed'))
 
   shipit.on('rollbacked', async () => shipit.start('postrollbacked'))
+
+  async function createConfigSymLink(isRemote) {
+    const file = 'variables.js'
+    const cwd = isRemote ? `${shipit.config.deployTo}/current/config` : `${shipit.workspace}/config`
+    const symbolLink = `test -f ${file} || ln -s variables.${variables.environment}.js ${file}`
+    if (isRemote) {
+      return shipit.remote(symbolLink, { cwd })
+    }
+    return shipit.local(symbolLink, { cwd })
+  }
 }

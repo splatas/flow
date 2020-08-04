@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+const fs = require('fs')
+main()
+
+function main() {
+  try {
+    const pattern = /^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\([a-z ]+\))?:/g
+    const message = fs.readFileSync(process.argv[2], 'utf8').trim()
+    if (!pattern.test(message)) {
+      console.log('\x1b[31m', 'Conventional commit validation failed')
+      process.exit(1)
+    }
+  } catch (err) {
+    throw new Error('Error validating convenctional commit')
+  }
+}

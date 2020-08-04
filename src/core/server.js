@@ -1,8 +1,8 @@
-#!/usr/bin/env node
-const config = require('./src/config')
-const { app, logger } = require('./src/app')
+'use strict'
+const config = require('../../config/config')
+const { app, logger } = require('./app')
 
-async function start () {
+async function start() {
   try {
     const fastify = await app()
     await fastify.listen(config.port, '0.0.0.0')

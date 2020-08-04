@@ -3,17 +3,17 @@
 const fs = require('fs')
 const path = require('path')
 const { exec } = require('child_process')
-const { app } = require('../src/app')
-
-const branch = process.env.DEPLOY_BRANCH || 'develop'
+const { app } = require('../src/core/app')
+const variables = require('../config/variables')
+const branch = variables.deploy_branch || 'develop'
 const command = `git log ${branch} -1 --pretty=format:"%h"`
 
-execProm(command).then(({ stdout, stderr }) => {
-  const revision = branch + '-' + stdout
+execProm(command).then(async ({ stdout, stderr }) => {
+  const revision = branch + '_' + stdout
 
-  fs.writeFile(path.join(__dirname, 'revision.json'), '"' + revision + '"', () => {})
+  fs.writeFile(path.join(__dirname, 'revision.json'), '"' + revision + '"', () => { })
 
-  const fastify = app()
+  const fastify = await app()
   fastify.ready(err => {
     if (err) {
       throw err
@@ -23,7 +23,7 @@ execProm(command).then(({ stdout, stderr }) => {
   })
 })
 
-function execProm (cmd) {
+function execProm(cmd) {
   return new Promise((resolve, reject) => {
     exec(cmd, (error, stdout, stderr) => {
       if (error) {

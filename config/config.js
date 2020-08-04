@@ -1,19 +1,16 @@
+'use strict'
 const pack = require('../package.json')
-// const pm2Conf = require('./pm2.json').apps[0]
-
-const env = process.env.NODE_ENV || 'local'
+const variables = require('./variables')
+const env = variables.enviroment || 'local'
 const prefix = `/${pack.config.prefix}/v1`
 
-// setPm2EnvVars()
-
-const activateLogs = process.env.ENABLE_LOGS !== 'no'
-const activateLoggly = process.env.ENABLE_LOGGLY !== 'no'
-const port = process.env.PORT || 8000
-process.env.PROJECT = 'base'
+const activateLogs = variables.enable_logs || false
+const activateLoggly = variables.enable_loggly || false
+const port = variables.port || 8100
 
 const TWO_MONTHS = 60 * 60 * 24 * 30 * 2 // secs * min * hrs * days * months
 
-const minervaHost = process.env.MINERVA_HOST || 'geo.mnedge.cvattv.com.ar'
+const minervaHost = variables.minerva_host || 'geo.mnedge.cvattv.com.ar'
 const config = {
   prefix,
   port,
@@ -21,7 +18,7 @@ const config = {
     level: 'info'
   },
   jwt: {
-    secret: process.env.SECRET || 'luego veremos algo mejor 201807',
+    secret: variables.JWT_SECRET || 'luego veremos algo mejor 201807',
     exp: TWO_MONTHS,
     sign: {
       expiresIn: TWO_MONTHS
@@ -64,17 +61,3 @@ if (env === 'preprod' && activateLoggly) {
 }
 
 module.exports = config
-
-/*
-function setPm2EnvVars() {
-  if (process.env.TESTING !== 'yes') {
-    return false
-  }
-  for (const k in pm2Conf.env) {
-    process.env[k] = pm2Conf.env[k]
-  }
-  for (const k in pm2Conf.env[env]) {
-    process.env[k] = pm2Conf.env[env][k]
-  }
-}
-*/
