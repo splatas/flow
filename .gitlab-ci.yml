@@ -46,9 +46,8 @@ test:
   script:
     - FILE=config/variables.js
     - >-
-      if test -f "$FILE";
+      if ! -f "$FILE";
         then ln -s variables.${NODE_ENV}.js "$FILE" && cat "$FILE";
-
       fi
     - npm i && CACHE_REDIS=no npm t
 
