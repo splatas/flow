@@ -47,13 +47,13 @@ module.exports = (shipit) => {
   })
 
   shipit.blTask('reversion', async () => {
-    const branch = shipit.config.branch
+    /* const branch = shipit.config.branch
 
     const gitLog = util.format(
       'npm i && DEPLOY_BRANCH=%s npm run openapi',
       branch
     )
-    return shipit.local(gitLog, { cwd: shipit.workspace })
+    return shipit.local(gitLog, { cwd: shipit.workspace }) */
   })
 
   shipit.blTask('npm:test', async () => {
@@ -75,6 +75,7 @@ module.exports = (shipit) => {
   })
 
   shipit.blTask('pm2:startOrRestart', async () => {
+    await createConfigSymLink()
     const current = `${shipit.config.deployTo}/current`
 
     const cmd = util.format(
@@ -103,4 +104,11 @@ module.exports = (shipit) => {
   shipit.on('deployed', async () => shipit.start('postdeployed'))
 
   shipit.on('rollbacked', async () => shipit.start('postrollbacked'))
+
+  async function createConfigSymLink() {
+    const path = `${shipit.config.deployTo}/current/config`
+    const file = 'variables.js'
+    const symbolLink = `cd ${path} && test -f ${file} || ln -s variables.${variables.environment}.js ${file}`
+    return shipit.remote(symbolLink)
+  }
 }

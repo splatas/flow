@@ -30,7 +30,6 @@ before_script:
   - apk add git
   - git checkout $CI_COMMIT_REF_NAME
   - if [ "$CI_COMMIT_REF_NAME" == "develop" -o "$CI_COMMIT_REF_NAME" == "master" ]; then git pull ; fi
-  - FILE=config/variables.js
 
 stages:
   - test
@@ -45,13 +44,10 @@ test:
     - master
     - tags
   script:
-    - >-
-      if test -f "$FILE";
-        then
-          cat "$FILE";
-        else
-          ln -s variables.${NODE_ENV}.js "$FILE";
-      fi
+    - cd config
+    - FILE=variables.js
+    - test -f "$FILE" || ln -s variables.${NODE_ENV}.js "$FILE";
+    - cd ..
     - npm i && CACHE_REDIS=no npm t
 
 deploy:
@@ -61,13 +57,6 @@ deploy:
     - master
     - tags
   script:
-    - >-
-      if test -f "$FILE";
-        then
-          cat "$FILE";
-        else
-          ln -s variables.${NODE_ENV}.js "$FILE";
-      fi
     - cp /root/extrakeys/nodejs_id_rsa* ..
     - >
       sed -ri $'s/repositoryUrl: \`git@([a-zA-Z0-9\.]+):/repositoryUrl:\`http:\\/\\/'$DEPLOY_TOKEN$'@\\1\\//' static/shipitfile.js
