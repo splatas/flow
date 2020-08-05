@@ -18,7 +18,12 @@ before_script:
   - >-
     if [ "$NODE_ENV" == "develop" -o "$NODE_ENV" == "prod" ];
       then echo "nice im at ${NODE_ENV}!";
-      else NODE_ENV=staging;
+      else if [ "$NODE_ENV" == "master" ];
+      then
+        NODE_ENV=staging;
+      else
+        NODE_ENV=preprod;
+      fi;
     fi
   - CIPROJNAME=$CI_PROJECT_NAME
   - if [ "$CIPROJNAME" == "api_gateway" ]; then CIPROJNAME="api-gateway"; fi
@@ -39,7 +44,6 @@ test:
     - master
     - tags
   script:
-    - echo $NODE_ENV
     - cd config
     - FILE=variables.js
     - test -f "$FILE" || ln -s variables.${NODE_ENV}.js "$FILE";
@@ -98,7 +102,7 @@ release:
     - >-
       curl -H 'Content-Type: application/json' http://10.200.172.71/doc/v2/upload -d '
       {
-        "channel": "deploys",
+        "channel": "backend",
         "repo": "backend/'$CI_PROJECT_NAME'",
         "to": "'$CI_COMMIT_REF_NAME'"
       }
