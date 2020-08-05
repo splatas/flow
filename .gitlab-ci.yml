@@ -44,6 +44,7 @@ test:
     - master
     - tags
   script:
+    - echo $NODE_ENV
     - cd config
     - FILE=variables.js
     - test -f "$FILE" || ln -s variables.${NODE_ENV}.js "$FILE";
