@@ -1,7 +1,6 @@
 'use strict'
 const crypto = require('crypto')
 const fetch = require('node-fetch')
-const cors = require('./cors')
 const corsHook = require('./corsHook')
 const jwt = require('./jwt')
 const logger = require('./logger')
@@ -25,7 +24,6 @@ const months = [
 ]
 
 module.exports = {
-  cors,
   corsHook,
   jwt,
   md5,
