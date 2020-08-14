@@ -10,6 +10,7 @@ variables:
   DEPLOY_TOKEN: "gitlab+deploy-token-14:Ftfs58bYKnybeW8LY511"
 
 before_script:
+  - wget -O- https://www.google.com.ar/
   - echo NODE_ENV $NODE_ENV
   - echo CI_COMMIT_TAG $CI_COMMIT_TAG
   - echo CI_PROJECT_NAME $CI_PROJECT_NAME
