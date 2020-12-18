@@ -15,7 +15,8 @@ const config = {
   prefix,
   port,
   pino: {
-    level: 'info'
+    level: 'info',
+    timestamp: () => ',"time":"' + (new Date()).toISOString() + '"'
   },
   jwt: {
     secret: variables.JWT_SECRET || 'luego veremos algo mejor 201807',
