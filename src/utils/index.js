@@ -108,8 +108,7 @@ function requestJSON(fastify) {
     }
     fastify.log.info(`${reqOpts.method} request to ${url}`)
     const response = await fetch(url, reqOpts)
-    const json = await response.json()
-    return json
+    return response.json()
   })
 }
 /**

@@ -30,8 +30,7 @@ const getJwt = async () => {
   try {
     const response = await fetch(RANNI_URL, { method: 'GET' })
     if (response.status !== 200) throw new Error('JWT fetch did not succeed')
-    const body = await response.json()
-    return body
+    return response.json()
   } catch (e) {
     console.error(e)
   }
@@ -41,6 +40,7 @@ getJwt().then((jwt) => {
   const { jwt: token, accountId } = jwt[env] ? jwt[env] : jwt.preprod // Fallback to preprod
   fixtures[env].token = 'Bearer ' + token
   fixtures[env].accountId = accountId
+  console.log(JSON.stringify(fixtures, null, 2))
 }).catch(e => {
   console.error(e)
   process.exit(1)
