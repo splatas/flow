@@ -24,10 +24,7 @@ describe('Running tests', () => {
       url: fastify.config.prefix + '/jwt',
       headers: { Authorization: fixtures.token }
     })
-    typeof response.statusCode === 'number'
-      ? expect(response.statusCode).toBe(200)
-      : expect(response.statusCode).toBe('200')
-
+    expect(response.statusCode).toBe(200)
     expect(response.headers['content-type']).toBe(
       'application/json; charset=utf-8'
     )
