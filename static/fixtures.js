@@ -13,34 +13,26 @@ const fixtures = {
   preprod: {
     api: 'https://web-prepro.flow.com.ar/auth/v2',
     minerva: 'http://geo.mnedge.prepro.cvattv.com.ar:7780/xtv-ws-client/api',
-  },
-  staging: {
-    api: 'https://web-ff-stg.cablevisionflow.com.ar/auth/v2',
-    minerva: 'http://geo.mnedge.cvattv.com.ar:7780/xtv-ws-client/api',
-  },
-  develop: {
-    api: 'https://gw-ff-dev.cablevisionflow.com.ar/auth/v2',
-    minerva: 'http://geo.mnedge.cvattv.com.ar:7780/xtv-ws-client/api',
   }
 }
 
-fixtures.local = JSON.parse(JSON.stringify(fixtures.develop))
+fixtures[env] = fixtures[env === 'preprod' ? 'preprod' : 'prod']
 
 const getJwt = async () => {
   try {
     const response = await fetch(RANNI_URL, { method: 'GET' })
     if (response.status !== 200) throw new Error('JWT fetch did not succeed')
-    const body = await response.json()
-    return body
+    return response.json()
   } catch (e) {
     console.error(e)
   }
 }
 
 getJwt().then((jwt) => {
-  const { jwt: token, accountId } = jwt[env] ? jwt[env] : jwt.preprod // Fallback to preprod
+  const { jwt: token, accountId } = jwt[env === 'preprod' ? 'preprod' : 'prod']
   fixtures[env].token = 'Bearer ' + token
   fixtures[env].accountId = accountId
+  console.log(JSON.stringify(fixtures, null, 2))
 }).catch(e => {
   console.error(e)
   process.exit(1)

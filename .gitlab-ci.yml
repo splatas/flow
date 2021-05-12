@@ -110,3 +110,21 @@ release:
         "to": "'$CI_COMMIT_REF_NAME'"
       }
       '
+
+merge:
+  before_script: # Override global before_script
+    - echo "Pushing merge request notification"
+  only:
+    - merge_requests
+  script:
+    - apk add curl
+    - >-
+      curl -H 'Content-Type: application/json' https://gw-ff-dev.cablevisionflow.com.ar/hermes/mergeOpen -d '
+        {
+          "project":    "'"$CI_PROJECT_NAME"'",
+          "url":        "'"$CI_MERGE_REQUEST_PROJECT_URL/-/merge_requests/$CI_MERGE_REQUEST_IID"'",
+          "branchFrom": "'"$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"'",
+          "branchTo":   "'"$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"'",
+          "title":      "'"$CI_MERGE_REQUEST_TITLE"'"
+        }
+      '

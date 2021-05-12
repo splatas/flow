@@ -13,7 +13,8 @@
     "release": "node static/release.js",
     "sonar": "jest --coverage && node static/sonar-project.js",
     "postinstall": "sh static/hooks/vlink.sh",
-    "docker-build": "docker build -f static/docker/Dockerfile . -t base-jaxx"
+    "docker-build": "docker build -f static/docker/Dockerfile . -t base-jaxx",
+    "lint": "eslint --fix --ignore-path .gitignore ."
   },
   "dependencies": {
     "fastify": "^3.15.1",
@@ -33,6 +34,7 @@
     "fastify-oas": "^3.0.8",
     "jest": "^25.5.4",
     "jest-sonar-reporter": "^2.0.0",
+    "nock": "^13.0.11",
     "shipit-cli": "^5.3.0",
     "shipit-deploy": "^5.3.0",
     "sonarqube-scanner": "^2.8.0"
