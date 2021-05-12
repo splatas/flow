@@ -1,5 +1,5 @@
 const nock = require('nock')
-const { genReqId, md5, timestamp } = require('./index')
+const { genReqId, md5, timestamp, zerofill } = require('./index')
 const { app, logger } = require('../core/app')
 logger.level = 'fatal'
 
@@ -69,6 +69,12 @@ describe('Utils index functions', () => {
   it('Function timestamp', async done => {
     const date = timestamp()
     expect(date).not.toBeNull()
+
+    done()
+  })
+
+  it('Function zerofill', async done => {
+    expect(zerofill(9)).toBe('09')
 
     done()
   })

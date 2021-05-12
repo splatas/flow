@@ -35,6 +35,7 @@ module.exports = {
   genReqId,
   timestamp,
   logger,
+  zerofill
 }
 
 /**
@@ -120,6 +121,7 @@ function timestamp() {
   const d = new Date()
   const zone = d.getTimezoneOffset()
   let z = 'ART'
+  console.log(zone)
   if (zone !== 180) {
     z = d.getTimezoneOffset() / -60.0
   }
