@@ -107,7 +107,7 @@ release:
     - >-
       curl -H 'Content-Type: application/json' http://10.200.172.71/doc/v2/upload -d '
       {
-        "channel": "deploys",
+        "channel": "backend",
         "repo": "backend/'$CI_PROJECT_NAME'",
         "to": "'$CI_COMMIT_REF_NAME'"
       }
