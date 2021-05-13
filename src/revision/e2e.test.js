@@ -2,6 +2,7 @@ const Ajv = require('ajv')
 
 const { app, logger } = require('../core/app')
 const schema = require('./schema')
+const revision = require('../../static/revision.json')
 logger.level = 'fatal'
 
 const ajv = new Ajv()
@@ -13,7 +14,7 @@ describe('Running tests', () => {
     fastify = await app()
     const response = await fastify.inject({
       method: 'GET',
-      url: fastify.config.prefix + '/ping'
+      url: fastify.config.prefix + '/revision'
     })
     typeof response.statusCode === 'number'
       ? expect(response.statusCode).toBe(200)
@@ -23,6 +24,7 @@ describe('Running tests', () => {
       'application/json; charset=utf-8'
     )
     expect(validate(response.payload)).toBeTruthy()
+    expect(JSON.parse(response.payload)).toBe(revision)
     done()
   })
 

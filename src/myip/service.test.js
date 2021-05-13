@@ -8,4 +8,15 @@ describe('Running myip test', () => {
     const response = await getIP(requestJSON)
     expect(response).toMatch(pattern)
   })
+
+  test('getIP should return an error', async () => {
+    const requestJSON = async () => {
+      throw new Error('error')
+    }
+    try {
+      await getIP(requestJSON)
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error)
+    }
+  })
 })

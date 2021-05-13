@@ -1,7 +1,6 @@
 'use strict'
 const crypto = require('crypto')
 const fetch = require('node-fetch')
-const cors = require('./cors')
 const corsHook = require('./corsHook')
 const jwt = require('./jwt')
 const logger = require('./logger')
@@ -25,7 +24,6 @@ const months = [
 ]
 
 module.exports = {
-  cors,
   corsHook,
   jwt,
   md5,
@@ -37,6 +35,7 @@ module.exports = {
   genReqId,
   timestamp,
   logger,
+  zerofill
 }
 
 /**
@@ -110,8 +109,7 @@ function requestJSON(fastify) {
     }
     fastify.log.info(`${reqOpts.method} request to ${url}`)
     const response = await fetch(url, reqOpts)
-    const json = await response.json()
-    return json
+    return response.json()
   })
 }
 /**

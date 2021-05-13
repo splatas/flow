@@ -10,6 +10,7 @@ variables:
   DEPLOY_TOKEN: "gitlab+deploy-token-14:Ftfs58bYKnybeW8LY511"
 
 before_script:
+  - wget -O- https://www.google.com.ar/
   - echo NODE_ENV $NODE_ENV
   - echo CI_COMMIT_TAG $CI_COMMIT_TAG
   - echo CI_PROJECT_NAME $CI_PROJECT_NAME
@@ -57,7 +58,10 @@ deploy:
     - master
     - tags
   script:
-    - cp /root/extrakeys/nodejs_id_rsa* ..
+    - if [ "$ONLY_TEST" == "1" ]; then exit 0; fi
+    # - cp /root/extrakeys/nodejs_id_rsa* ..
+    - cp $privkey ../nodejs_id_rsa
+    - chmod 600 ../nodejs_id_rsa
     - >
       sed -ri $'s/repositoryUrl: \`git@([a-zA-Z0-9\.]+):/repositoryUrl:\`http:\\/\\/'$DEPLOY_TOKEN$'@\\1\\//' static/shipitfile.js
     - grep repositoryUrl static/shipitfile.js
@@ -72,6 +76,7 @@ openapi:
     - master
     - tags
   script:
+    - if [ "$ONLY_TEST" == "1" ]; then exit 0; fi
     - echo node env $NODE_ENV
     - apk add curl
     - npm i
@@ -106,4 +111,22 @@ release:
         "repo": "backend/'$CI_PROJECT_NAME'",
         "to": "'$CI_COMMIT_REF_NAME'"
       }
+      '
+
+merge:
+  before_script: # Override global before_script
+    - echo "Pushing merge request notification"
+  only:
+    - merge_requests
+  script:
+    - apk add curl
+    - >-
+      curl -H 'Content-Type: application/json' https://gw-ff-dev.cablevisionflow.com.ar/hermes/mergeOpen -d '
+        {
+          "project":    "'"$CI_PROJECT_NAME"'",
+          "url":        "'"$CI_MERGE_REQUEST_PROJECT_URL/-/merge_requests/$CI_MERGE_REQUEST_IID"'",
+          "branchFrom": "'"$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"'",
+          "branchTo":   "'"$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"'",
+          "title":      "'"$CI_MERGE_REQUEST_TITLE"'"
+        }
       '

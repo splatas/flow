@@ -6,3 +6,4 @@
 /.scannerwork
 /config/secrets.js
 /config/variables.js
+.vscode

@@ -3,7 +3,7 @@ const config = require('../../config/config')
 const { logger, ...utils } = require('../utils')
 const fastify = require('fastify')({
   requestIdHeader: 'x-request-id',
-  logger,
+  logger: { ...logger, ...config.pino }
 })
 
 async function app() {
