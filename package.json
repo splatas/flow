@@ -1,7 +1,7 @@
 {
   "name": "base-jaxx",
   "description": "Node.js Bassement/Skeleton API",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "main": "server.js",
   "scripts": {
     "start": "node src/core/server",
