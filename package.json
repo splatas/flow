@@ -1,7 +1,7 @@
 {
-  "name": "base-jaxx",
+  "name": "retail-queloque",
   "description": "Node.js Bassement/Skeleton API",
-  "version": "0.7.2",
+  "version": "0.1.0",
   "main": "server.js",
   "scripts": {
     "start": "node src/core/server",
@@ -40,9 +40,9 @@
     "sonarqube-scanner": "^2.8.0"
   },
   "config": {
-    "fullName": "Base API",
-    "prefix": "base",
-    "port": 8100
+    "fullName": "retail-queloque",
+    "prefix": "retail",
+    "port": 8090
   },
   "jest": {
     "testEnvironment": "node",

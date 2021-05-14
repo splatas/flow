@@ -1,0 +1,307 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "retail",
+    "version": "1.0",
+    "summary": "Retail Api",
+    "description": "Esta es una descripción del Api Retail-QueloQue",
+    "contact": {
+      "name": "Flow backend"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8090",
+      "description": "Local Retail Api"
+    }
+  ],
+  "paths": {
+    "/retail/v1/deco-type": {
+      "get": {
+        "summary": "Deco Type #FBE-73",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "deco no retail": {
+                    "value": {
+                      "status": "NO_RETAIL"
+                    }
+                  },
+                  "deco retail activo": {
+                    "value": {
+                      "status": "ACTIVE"
+                    }
+                  },
+                  "deco retail inactivo": {
+                    "value": {
+                      "status": "INACTIVE"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-retail-v1-verify",
+        "description": "Permite identificar y el deco es de tipo comodato o caja retail aportando si se encuentra activo o inactivo.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "example": "14:13:46:D1:E5:16"
+            },
+            "in": "query",
+            "name": "macAddress",
+            "required": true
+          }
+        ]
+      },
+      "parameters": []
+    },
+    "/retail/v1/code": {
+      "get": {
+        "summary": "Generate Code of activation #FBE-95",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "exp": {
+                      "type": "integer",
+                      "description": "Tiempo de expiración en tiempo unix",
+                      "example": 1620668011
+                    }
+                  },
+                  "required": ["code", "exp"]
+                },
+                "examples": {
+                  "New Code": {
+                    "value": {
+                      "code": "1A2B8",
+                      "exp": 1620668011
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-retail-v1-code",
+        "description": "Permite generar un codigo de activación a para un deco retail.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "example": "141346D1E516"
+            },
+            "in": "query",
+            "name": "macAddress",
+            "required": true,
+            "description": "Mac del dispositivo"
+          }
+        ]
+      }
+    },
+    "/retail/v1/validate-code": {
+      "post": {
+        "tags": [],
+        "summary": "Validate Code #FBE-98",
+        "operationId": "post-retail-v1-validate-code",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "valid": {
+                      "example": true,
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "Validate code": {
+                    "value": {
+                      "valid": true
+                    }
+                  },
+                  "Invalid Code": {
+                    "value": {
+                      "valid": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Permite validar un codigo generado para un deco retail, asocia datos del usuario con la mac address del deco.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "example": "1A2B8"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "125478954"
+                  },
+                  "avatarId": {
+                    "type": "integer"
+                  }
+                },
+                "required": ["code", "name", "avatarId"]
+              }
+            }
+          },
+          "description": ""
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+            },
+            "in": "header",
+            "name": "Autorization",
+            "description": "Bearer Token JWT",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/retail/v1/code/state": {
+      "get": {
+        "summary": "Valida codigo alfa numerico activo #FBE-99",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "description": "Indica si el deco fue activado a traves del codigo alfa numerico o no"
+                    },
+                    "customerId": {
+                      "type": "string",
+                      "description": "customer Id del usuario de flow"
+                    }
+                  },
+                  "required": ["status"]
+                },
+                "examples": {
+                  "Deco activated": {
+                    "value": {
+                      "status": true,
+                      "customerId": "123243234"
+                    }
+                  },
+                  "Deco unactivated": {
+                    "value": {
+                      "status": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-retail-v1-code-state",
+        "description": "Permite al deco saber si alguna PC activó al codigo alfa numerico.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "example": "141346D1E516"
+            },
+            "in": "query",
+            "name": "macAddress",
+            "description": "Mac del dispositivo",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/retail/v1/activate": {
+      "post": {
+        "tags": [],
+        "summary": "",
+        "operationId": "post-retail-v1-activate",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["status"]
+                },
+                "examples": {
+                  "Ok": {
+                    "value": {
+                      "status": "Deco activado"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Permite Activar el deco retail a partir de la Mac Address",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "macAddress": {
+                    "type": "string",
+                    "description": "Mac del dispositivo"
+                  }
+                },
+                "required": ["macAddress"]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}
