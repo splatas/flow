@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const fetch = require('node-fetch')
 const variables = require('../config/variables')
-const env = variables.enviroment || 'local'
+const env = variables.environment || 'local'
 
 const RANNI_URL = 'http://10.200.172.71/ranni/v1/public/jwt.json'
 
