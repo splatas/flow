@@ -26,6 +26,7 @@ before_script:
         NODE_ENV=preprod;
       fi;
     fi
+  - echo NODE_ENV $NODE_ENV
   - CIPROJNAME=$CI_PROJECT_NAME
   - if [ "$CIPROJNAME" == "api_gateway" ]; then CIPROJNAME="api-gateway"; fi
   - apk add git
