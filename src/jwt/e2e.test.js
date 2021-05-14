@@ -1,7 +1,7 @@
 const Ajv = require('ajv')
 
 const variables = require('../../config/variables')
-const env = variables.enviroment || 'local'
+const env = variables.environment || 'local'
 
 const { app, logger } = require('../core/app')
 const schema = require('./schema')
