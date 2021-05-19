@@ -1,7 +1,8 @@
 'use strict'
 const pack = require('../package.json')
 const variables = require('./variables')
-const env = variables.enviroment || 'local'
+const db = require('./database')
+const env = variables.environment || 'local'
 const prefix = `/${pack.config.prefix}/v1`
 
 const activateLogs = variables.enable_logs || false
@@ -29,12 +30,13 @@ const config = {
     url: `http://${minervaHost}:7780/xtv-ws-client/api`,
     accountType: 'cva'
   },
-  schemes: ['https']
+  schemes: ['https'],
+  database: db[env]
 }
 
 const loggly = {
   token: '2c52ac24-4b71-40fd-975b-4f31b92c0546',
-  tags: ['backend', env, 'auth'],
+  tags: ['backend', env, 'retail'],
   json: false,
   returnStream: activateLogs,
   level: activateLogs ? 'debug' : 'error'

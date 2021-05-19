@@ -1,0 +1,54 @@
+pass:[<div align="center"><b>Api Retail QueloQue!</b></div>]
+------------------------------------------------------------
+
+pass:[<div style="text-align: center;"><img src="https://studiosol-a.akamaihd.net/letras/168x148/fotos/6/4/4/8/644853f131cbf21a4b475c2e21ddc97a.jpg" alt="John Doe"></div>]
+
+Environments
+~~~~~~~~~~~~
+
+*Note:* file of config: `/config/config.json`
+[options="header,footer"]
+|=======================
+|Environment|Description
+|local      |database mysql
+|test       |database **mysqli**
+|=======================
+
+
+Migrations
+~~~~~~~~~~
+
+* Create Database
++
+Note: It is important to use the variable **NODE_ENV**
++
+Note: local environment create database with mysql configuration
++
+-----------------
+NODE_ENV=test npx sequelize-cli db:create
+-----------------
+
+
+* Run Migrations
++
+-----------------
+NODE_ENV=test npx sequelize-cli db:migrate
+-----------------
+
+* Undo a migration
++
+----------------
+NODE_ENV=test npx sequelize-cli db:migrate:undo
+NODE_ENV=test npx sequelize-cli db:migrate:undo:all
+----------------
+
+* Create a migration
++
+----------------
+npx sequelize-cli migration:generate --name migration-example
+----------------
+
+Run Api
+~~~~~~~
+
+pass:[<div align="center"><b>content</b></div>]
