@@ -55,7 +55,7 @@ test:
 deploy:
   stage: deploy
   only:
-    - develop
+    # - develop
     - master
     - tags
   script:
@@ -73,7 +73,7 @@ deploy:
 openapi:
   stage: openapi
   only:
-    - develop
+    # - develop
     - master
     - tags
   script:
