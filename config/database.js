@@ -1,4 +1,5 @@
 const env = process.env.NODE_ENV || 'test'
+
 const {
   DATABASE_USER, DATABASE_PASSWORD, DATABASE_DB, DATABASE_HOST, DATABASE_DIALECT
 } = require('../constants/database')
