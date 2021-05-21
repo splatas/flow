@@ -1,10 +1,10 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "x-git-version": "develop_9e02ccd",
-    "title": "Base API",
+    "x-git-version": "develop_b817de8",
+    "title": "retail-queloque",
     "description": "Node.js Bassement/Skeleton API",
-    "version": "0.7.0"
+    "version": "0.1.0"
   },
   "components": {
     "securitySchemes": {
@@ -28,11 +28,11 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8100/"
+      "url": "https://127.0.0.1/"
     }
   ],
   "paths": {
-    "/base/v1/myip": {
+    "/retail/v1/myip": {
       "get": {
         "responses": {
           "200": {
@@ -54,7 +54,7 @@
         ]
       }
     },
-    "/base/v1/revision": {
+    "/retail/v1/revision": {
       "get": {
         "responses": {
           "200": {
@@ -76,7 +76,7 @@
         ]
       }
     },
-    "/base/v1/ping": {
+    "/retail/v1/ping": {
       "get": {
         "responses": {
           "200": {
@@ -98,7 +98,7 @@
         ]
       }
     },
-    "/base/v1/jwt": {
+    "/retail/v1/jwt": {
       "get": {
         "responses": {
           "200": {
@@ -194,6 +194,72 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/retail/v1/deco-type": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "values: NO_RETAIL, ALREDY_ACTIVE, INACTIVE"
+                    }
+                  },
+                  "example": {
+                    "status": "ALREDY_ACTIVE"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Deco Type",
+        "description": "Permite identificar si el deco es de tipo comodato o retail aportando si se encuentra activo o inactivo",
+        "tags": [
+          "retail"
+        ],
+        "parameters": [
+          {
+            "name": "macAddress",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/retail/v1/code": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        },
+        "summary": "Generate Code of activation",
+        "description": "Permite generar un codigo de activación a para un deco retail.",
+        "tags": [
+          "deco-retail"
+        ],
+        "operationId": "get-retail-v1-code",
+        "parameters": [
+          {
+            "name": "macAddress",
+            "in": "query",
+            "required": true,
+            "description": "Mac address del dispositivo",
+            "schema": {
+              "type": "string",
+              "description": "Mac address del dispositivo"
             }
           }
         ]

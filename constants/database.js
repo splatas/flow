@@ -1,5 +1,3 @@
-const dotenv = require('dotenv').config()
-
 module.exports = {
   DATABASE_USER: process.env.DATABASE_USER || 'retail',
   DATABASE_PASSWORD: process.env.DATABASE_PASSWORD || 'retail',
