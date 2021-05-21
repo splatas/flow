@@ -242,24 +242,45 @@
       "get": {
         "responses": {
           "200": {
-            "description": "Default Response"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "exp": {
+                      "type": "string"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "code": "1A2B8",
+                    "exp": 1620668011
+                  }
+                }
+              }
+            }
           }
         },
         "summary": "Generate Code of activation",
-        "description": "Permite generar un codigo de activación a para un deco retail.",
+        "description": "Permite generar un codigo de activación a para un deco retail",
         "tags": [
-          "deco-retail"
+          "retail"
         ],
-        "operationId": "get-retail-v1-code",
         "parameters": [
           {
             "name": "macAddress",
             "in": "query",
             "required": true,
-            "description": "Mac address del dispositivo",
             "schema": {
-              "type": "string",
-              "description": "Mac address del dispositivo"
+              "type": "string"
             }
           }
         ]
