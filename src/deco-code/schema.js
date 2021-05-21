@@ -12,25 +12,32 @@ const schema = {
             properties: {
               code: {
                 type: 'string',
-                description: 'Codigo de activación',
-                example: 'ABC12'
+                description: 'ABC12'
               },
               exp: {
                 type: 'integer',
                 description: 'Tiempo de expiración en tiempo unix',
                 example: 1620668011
+              },
+              msg: {
+                type: 'string'
+              },
+              label: {
+                type: 'string'
               }
-            },
-            required: [
-              'code',
-              'exp'
-            ]
+            }
           },
           examples: {
-            'New Code': {
+            'New code': {
               value: {
-                code: 'ABC12',
+                code: '1A2B8',
                 exp: 1620668011
+              }
+            },
+            'No retail': {
+              value: {
+                msg: 'no es deco retail',
+                label: 'NOT_RETAIL'
               }
             }
           }

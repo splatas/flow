@@ -23,21 +23,6 @@ const months = [
   'Dec'
 ]
 
-module.exports = {
-  corsHook,
-  jwt,
-  md5,
-  errorHandler,
-  request,
-  requestJSON,
-  ResponseError,
-  openAPI,
-  genReqId,
-  timestamp,
-  logger,
-  zerofill
-}
-
 /**
  * Request Id generator
  *
@@ -148,4 +133,30 @@ function zerofill(num) {
     num = '0' + num
   }
   return num
+}
+
+const getStatusLabelForId = (code, status) => {
+  let label
+
+  for(const i in status) {
+    if(code === status[i].CODE) label = status[i].LABEL
+  }
+
+  return label
+}
+
+module.exports = {
+  corsHook,
+  jwt,
+  md5,
+  errorHandler,
+  request,
+  requestJSON,
+  ResponseError,
+  openAPI,
+  genReqId,
+  timestamp,
+  logger,
+  zerofill,
+  getStatusLabelForId
 }
