@@ -14,9 +14,9 @@ module.exports = {
     LABEL: 'CODE_VALIDATED',
     MSG: 'codigo de activacion validado'
   },
-  ALREDY_ACTIVE: {
+  ACTIVE: {
     CODE: 50,
-    LABEL: 'ALREDY_ACTIVE',
+    LABEL: 'ACTIVE',
     MSG: 'deco activado'
   },
   NO_RETAIL: {

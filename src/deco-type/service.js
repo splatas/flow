@@ -1,9 +1,7 @@
-/* eslint-disable no-ex-assign */
-
 const { getStatusLabelForId } = require('../utils')
 const statusCode = require('../../constants/devices')
 const {
-  NO_RETAIL, INACTIVE, REQUESTED_CODE, CODE_VALIDATED, ALREDY_ACTIVE
+  NO_RETAIL, INACTIVE, REQUESTED_CODE, CODE_VALIDATED, ACTIVE
 } = statusCode
 const service = {
   decoType: async (fastify, mac) => {
@@ -14,19 +12,18 @@ const service = {
       if (!deco) return { status: NO_RETAIL.LABEL }
       const status = getStatusLabelForId(deco.status, statusCode)
 
-      if(status === INACTIVE.LABEL || status === REQUESTED_CODE.LABEL || status === CODE_VALIDATED.LABEL) {
+      if ([INACTIVE.LABEL, REQUESTED_CODE.LABEL, CODE_VALIDATED.LABEL].includes(status)) {
         return { status: INACTIVE.LABEL }
       }
 
-      if(status === ALREDY_ACTIVE.LABEL) return { status: ALREDY_ACTIVE.LABEL }
+      if (status === ACTIVE.LABEL) return { status: ACTIVE.LABEL }
 
       // si el status no existe en decoStatus devolverá solo 200 y {}
       return {}
     } catch (e) {
-      if(Array.isArray(e.errors)) e = e.errors[0].message
-      throw new Error(e)
+      throw new Error(Array.isArray(e.errors) ? e.errors[0].message : e)
     }
-  },
+  }
 }
 
 module.exports = service

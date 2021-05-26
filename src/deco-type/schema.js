@@ -1,59 +1,67 @@
-'use strict'
 const schema = {
+  tags: ['retail'],
   summary: 'Deco Type',
-  tags: ['deco-retail'],
-  responses: {
-    200: {
-      description: 'OK',
-      content: {
-        'application/json': {
-          schema: {
-            type: 'object',
-            properties: {
-              status: {
-                type: 'string'
-              }
-            }
-          },
-          examples: {
-            'deco no retail': {
-              value: {
-                status: 'NO_RETAIL'
-              }
-            },
-            'deco retail activo': {
-              value: {
-                status: 'ACTIVE'
-              }
-            },
-            'deco retail inactivo': {
-              value: {
-                status: 'INACTIVE'
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  operationId: 'get-retail-v1-type',
-  description: 'Permite identificar si el deco es de tipo comodato o retail aportando si se encuentra activo o inactivo.',
+  description: 'Permite identificar si el deco es de tipo comodato o retail aportando si se encuentra activo o inactivo',
   querystring: {
-    schema: {
-      type: 'string',
-      example: '14:13:46:D1:E5:16'
-    },
     type: 'object',
     properties: {
       macAddress: {
-        type: 'string',
-        description: 'Mac address del dispositivo',
-      },
+        type: 'string'
+      }
     },
     required: [
       'macAddress'
     ],
+    example: {
+      macAddress: '14:13:46:D1:E5:16'
+    }
   },
+  response: {
+    200: {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'string',
+          description: 'values: NO_RETAIL, ACTIVE, INACTIVE'
+        },
+      },
+      example: {
+        status: 'ACTIVE'
+      }
+    },
+    400: {
+      description: 'Bad request',
+      type: 'object',
+      properties: {
+        error: { type: 'string' },
+        message: { type: 'string' }
+      }
+    },
+    403: {
+      description: 'Forbidden',
+      type: 'object',
+      properties: {
+        error: { type: 'string' },
+        message: { type: 'string' }
+      }
+    },
+    404: {
+      description: 'Could not provision',
+      type: 'object',
+      properties: {
+        error: { type: 'string' },
+        message: { type: 'string' }
+      }
+    },
+    500: {
+      description: 'Generic server error',
+      type: 'object',
+      properties: {
+        error: { type: 'string' },
+        message: { type: 'string' }
+      }
+    }
+  }
 }
 
 module.exports = schema

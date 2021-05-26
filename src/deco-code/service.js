@@ -1,7 +1,6 @@
-
 const moment = require('moment')
 const {
-  NO_RETAIL, ALREDY_ACTIVE
+  NO_RETAIL, ACTIVE
 } = require('../../constants/devices')
 
 const service = {
@@ -17,17 +16,17 @@ const service = {
       })
 
       if (!deco) return { status: NO_RETAIL.LABEL, msg: NO_RETAIL.MSG }
-      if(deco.status === ALREDY_ACTIVE.CODE) return { status: ALREDY_ACTIVE.LABEL, msg: ALREDY_ACTIVE.MSG }
+      if (deco.status === ACTIVE.CODE) return { status: ACTIVE.LABEL, msg: ACTIVE.MSG }
 
       do {
         code = Math.random().toString(36).substring(2, 7).toUpperCase()
         const codeIsUnique = await fastify.db.Alphanum
           .findOne({ attributes: ['id'], where: { code } })
 
-        if(!codeIsUnique) codeRepeted = false
+        if (!codeIsUnique) codeRepeted = false
       } while (codeRepeted)
 
-      if(deco.alphanum.length) {
+      if (deco.alphanum.length) {
         await fastify.db.Alphanum.destroy({ where: { device_id: deco.id } })
       }
 
@@ -43,15 +42,9 @@ const service = {
 
       return { code, exp }
     } catch (e) {
-      if(Array.isArray(e.errors)) e = e.errors[0].message
-      throw new Error(e)
+      throw new Error(Array.isArray(e.errors) ? e.errors[0].message : e)
     }
   },
 }
 
 module.exports = service
-
-// const code = Math.random().toString(36).substring(2, 7).toUpperCase()
-// await fastify.db.Device.create({ mac, alphanum: [{ code }] }, {
-//   include: [{ model: fastify.db.Alphanum, as: 'alphanum' }]
-// })

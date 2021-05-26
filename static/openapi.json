@@ -1,10 +1,10 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "x-git-version": "develop_9e02ccd",
-    "title": "Base API",
+    "x-git-version": "develop_c3e8994",
+    "title": "retail-queloque",
     "description": "Node.js Bassement/Skeleton API",
-    "version": "0.7.0"
+    "version": "0.1.0"
   },
   "components": {
     "securitySchemes": {
@@ -28,11 +28,11 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8100/"
+      "url": "http://localhost:8090/"
     }
   ],
   "paths": {
-    "/base/v1/myip": {
+    "/retail/v1/myip": {
       "get": {
         "responses": {
           "200": {
@@ -54,7 +54,7 @@
         ]
       }
     },
-    "/base/v1/revision": {
+    "/retail/v1/revision": {
       "get": {
         "responses": {
           "200": {
@@ -76,7 +76,7 @@
         ]
       }
     },
-    "/base/v1/ping": {
+    "/retail/v1/ping": {
       "get": {
         "responses": {
           "200": {
@@ -98,7 +98,7 @@
         ]
       }
     },
-    "/base/v1/jwt": {
+    "/retail/v1/jwt": {
       "get": {
         "responses": {
           "200": {
@@ -191,6 +191,245 @@
           {
             "name": "Authorization",
             "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/retail/v1/deco-type": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "description": "values: NO_RETAIL, ACTIVE, INACTIVE"
+                    }
+                  },
+                  "example": {
+                    "status": "ACTIVE"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Bad request",
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bad request"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Forbidden",
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Could not provision",
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Could not provision"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Generic server error",
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Generic server error"
+          }
+        },
+        "summary": "Deco Type",
+        "description": "Permite identificar si el deco es de tipo comodato o retail aportando si se encuentra activo o inactivo",
+        "tags": [
+          "retail"
+        ],
+        "parameters": [
+          {
+            "name": "macAddress",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/retail/v1/code": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "exp": {
+                      "type": "string"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "code": "1A2B8",
+                    "exp": 1620668011
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Bad request",
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Bad request"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Forbidden",
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Forbidden"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Could not provision",
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Could not provision"
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Generic server error",
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Generic server error"
+          }
+        },
+        "summary": "Generate Code of activation",
+        "description": "Permite generar un codigo de activación a para un deco retail",
+        "tags": [
+          "retail"
+        ],
+        "parameters": [
+          {
+            "name": "macAddress",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "string"
