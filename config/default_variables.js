@@ -12,6 +12,13 @@ class DEFAULT_VARIABLES {
     this.deploy_test = false
     // this.environment = 'develop'
     this.JWT_SECRET = process.env.SECRET
+    this.database = {
+      user: process.env.DATABASE_USER || 'retail',
+      password: process.env.DATABASE_PASSWORD || 'retail',
+      db: process.env.DATABASE_DB || 'src/retail.db',
+      host: process.env.DATABASE_HOST || 'localhost',
+      dialect: process.env.DATABASE_DIALECT || 'sqlite',
+    }
   }
 }
 
