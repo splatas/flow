@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "x-git-version": "develop_c16eba9",
+    "x-git-version": "develop_c3e8994",
     "title": "retail-queloque",
     "description": "Node.js Bassement/Skeleton API",
     "version": "0.1.0"
