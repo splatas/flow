@@ -14,7 +14,7 @@ const service = {
       if (!deco) return { status: NO_RETAIL.LABEL }
       const status = getStatusLabelForId(deco.status, statusCode)
 
-      if (status === INACTIVE.LABEL || status === REQUESTED_CODE.LABEL || status === CODE_VALIDATED.LABEL) {
+      if ([INACTIVE.LABEL, REQUESTED_CODE.LABEL, CODE_VALIDATED.LABEL].includes(status)) {
         return { status: INACTIVE.LABEL }
       }
 
@@ -26,7 +26,7 @@ const service = {
       if (Array.isArray(e.errors)) e = e.errors[0].message
       throw new Error(e)
     }
-  },
+  }
 }
 
 module.exports = service

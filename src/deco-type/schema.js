@@ -22,11 +22,43 @@ const schema = {
       properties: {
         status: {
           type: 'string',
-          description: 'values: NO_RETAIL, ALREDY_ACTIVE, INACTIVE'
+          description: 'values: NO_RETAIL, ACTIVE, INACTIVE'
         },
       },
       example: {
-        status: 'ALREDY_ACTIVE'
+        status: 'ACTIVE'
+      }
+    },
+    400: {
+      description: 'Bad request',
+      type: 'object',
+      properties: {
+        error: { type: 'string' },
+        message: { type: 'string' }
+      }
+    },
+    403: {
+      description: 'Forbidden',
+      type: 'object',
+      properties: {
+        error: { type: 'string' },
+        message: { type: 'string' }
+      }
+    },
+    404: {
+      description: 'Could not provision',
+      type: 'object',
+      properties: {
+        error: { type: 'string' },
+        message: { type: 'string' }
+      }
+    },
+    500: {
+      description: 'Generic server error',
+      type: 'object',
+      properties: {
+        error: { type: 'string' },
+        message: { type: 'string' }
       }
     }
   }
