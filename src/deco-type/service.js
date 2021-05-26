@@ -1,5 +1,3 @@
-/* eslint-disable no-ex-assign */
-
 const { getStatusLabelForId } = require('../utils')
 const statusCode = require('../../constants/devices')
 const {
@@ -23,8 +21,7 @@ const service = {
       // si el status no existe en decoStatus devolverá solo 200 y {}
       return {}
     } catch (e) {
-      if (Array.isArray(e.errors)) e = e.errors[0].message
-      throw new Error(e)
+      throw new Error(Array.isArray(e.errors) ? e.errors[0].message : e)
     }
   }
 }
