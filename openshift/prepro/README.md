@@ -1,0 +1,2 @@
+En la carpeta del ambiente se puede aplicar una configuración particular a través del archivo deploymentPatch.yaml.
+El archivo deploymentPatch.yaml es opcional: si no existe, se aplicará la configuración definida en ../template.yaml.
